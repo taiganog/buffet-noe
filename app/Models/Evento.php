@@ -10,20 +10,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\Equipe;
 use App\Models\Cliente;
-use App\Models\Orcamento;
+use App\Models\Complemento;
+use App\Models\Valor;
 
 class Evento extends Model {
     use HasFactory;
 
     protected $fillable = [
-        'nome',
         'local',
         'data',
         'duracao',
         'tipo',
         'numero_convidados',
-        'valor',
-        'observacao'
+        'observacao',
+        'cliente_id'
     ];
 
     public function equipe(): HasMany {
@@ -34,7 +34,11 @@ class Evento extends Model {
         return $this->belongsTo(Cliente::class);
     }
 
+    public function complemento(): HasOne {
+        return $this->hasOne(Complemento::class);
+    }
+
     public function valor(): HasOne {
-        return $this->hasOne(Orcamento::class);
+        return $this->hasOne(Valor::class);
     }
 }

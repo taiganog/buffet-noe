@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\EventoController;
+use App\Http\Controllers\ComplementoController;
+use App\Http\Controllers\ValorController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -16,7 +20,19 @@ Route::get('/', function () {
     ]);
 })->name('welcome');
 
+Route::get('/cliente', [ClienteController::class, 'index']);
 Route::post('/cliente', [ClienteController::class, 'create']);
+
+Route::get('/evento', [EventoController::class, 'index']);
+Route::post('/evento', [EventoController::class, 'create']);
+
+Route::get('/complemento', [ComplementoController::class, 'index']);
+Route::post('/complemento', [ComplementoController::class, 'create']);
+
+Route::get('/valor', [ValorController::class, 'index']);
+Route::post('/valor', [ValorController::class, 'create']);
+
+Route::get('/dashboard', [DashboardController::class, 'index']);
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/dashboard', function () {

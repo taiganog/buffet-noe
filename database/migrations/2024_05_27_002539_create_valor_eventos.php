@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('taca');
             $table->unsignedSmallInteger('cumbuca');
             $table->unsignedSmallInteger('prataria');
-            $table->unsignedSmallInteger('louça_sobremesa');
+            $table->unsignedSmallInteger('louca_sobremesa');
             $table->unsignedSmallInteger('cestinha');
             $table->unsignedSmallInteger('garcom');
             $table->unsignedSmallInteger('cozinheiro');

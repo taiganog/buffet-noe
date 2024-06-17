@@ -25,7 +25,6 @@ return new class extends Migration
                                 'CONFRATERNIZACAO',
                                 'CHURRASCO']);
             $table->unsignedSmallInteger('numero_convidados');
-            $table->unsignedSmallInteger('valor');
             $table->text('observacao')->nullable();
 
             $table->timestamps();
