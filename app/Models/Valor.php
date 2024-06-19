@@ -27,6 +27,7 @@ class Valor extends Model
         'cozinheiro',
         'bar',
         'ajudante_cozinha',
+        'total',
 
         'evento_id'
     ];

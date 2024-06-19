@@ -30,6 +30,8 @@ return new class extends Migration
             $table->unsignedSmallInteger('bar');
             $table->unsignedSmallInteger('ajudante_cozinha');
 
+            $table->unsignedSmallInteger('total');
+
             // FK
             $table->unsignedBigInteger('evento_id');
             $table->foreign('evento_id')->references('id')->on('eventos');

@@ -13,12 +13,7 @@ use App\Models\Cliente;
 class EventoController extends Controller
 {
     public function index(): Response {
-        return Inertia::render('Teste', [
-            'v1' => Evento::all(),
-            'v2' => Cliente::all(),
-
-            'v3' => Cliente::find(1)->evento,
-        ]);
+        return Inertia::render('Admin/Dashboard');
     }
 
     public function create(Request $request): RedirectResponse {
