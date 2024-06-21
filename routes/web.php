@@ -11,6 +11,7 @@ use App\Http\Controllers\ComplementoController;
 use App\Http\Controllers\ValorController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\FuncionarioController;
+use App\Http\Controllers\Admin\FeedbackController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -21,16 +22,16 @@ Route::get('/', function () {
     ]);
 })->name('welcome');
 
+// Rotas de teste para Postman
 Route::get('/cliente', [ClienteController::class, 'index']);
 Route::post('/cliente', [ClienteController::class, 'create']);
-
 Route::get('/complemento', [ComplementoController::class, 'index']);
 Route::post('/complemento', [ComplementoController::class, 'create']);
-
 Route::get('/valor', [ValorController::class, 'index']);
 Route::post('/valor', [ValorController::class, 'create']);
-
 Route::post('/evento', [EventoController::class, 'create']);
+Route::post('/feedback', [FeedbackController::class, 'create']);
+Route::delete('/feedback', [FeedbackController::class, 'destroy']);
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     // Rotas de perfil
@@ -47,6 +48,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
     //  - Funcionários
     Route::get('/funcionario', [FuncionarioController::class, 'index'])->name('admin.funcionario');
+
+    //  - Feedback
+    Route::get('/feedback', [FeedbackController::class, 'index'])->name('admin.feedback');
 });
 
 require __DIR__.'/auth.php';

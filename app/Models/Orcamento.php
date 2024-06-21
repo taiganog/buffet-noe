@@ -9,6 +9,7 @@ class Orcamento extends Model
 {
     use HasFactory;
     const UPDATED_AT = null;
+    protected $casts = ['created_at' => 'datetime:d/m/Y H:i'];
 
     protected $fillable = [
         'nome',

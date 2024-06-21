@@ -8,8 +8,8 @@ const props = defineProps<{
 }>();
 
 const classes = computed(() =>
-    props.active ? 'font-bold text-2xl hover:text-yellow-300 transition ease-in-out duration-300' :
-    'hover:text-yellow-300 transition ease-in-out duration-300'
+    props.active ? 'font-bold text-2xl hover:text-white transition ease-in-out duration-300' :
+    'hover:text-white transition ease-in-out duration-300'
 );
 </script>
 

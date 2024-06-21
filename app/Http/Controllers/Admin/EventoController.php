@@ -9,27 +9,33 @@ use Inertia\Response;
 
 use App\Http\Controllers\Controller;
 use App\Models\Evento;
-use App\Models\Cliente;
 
-class EventoController extends Controller
-{
+use App\Managers\FormatarManager;
+
+class EventoController extends Controller {
     public function index($id = null): Response {
-        if($id) {
-            $evento = Evento::find($id);
+        $evento = Evento::find($id);
+        $formatarManager = new FormatarManager;
+
+        // Checar se evento existe antes de entregar a rota de detalhes
+        if($evento) {
             $evento->cliente;
             $evento->complemento;
             $evento->valor;
+
+            $formatarManager->formatarTipo($evento);
+            $formatarManager->formatarData($evento, 'd/m/Y H:i');
 
             return Inertia::render('Admin/Evento', [
                 'evento' => $evento
             ]);
         }
 
+        // Sem paramêtros ou se rota não existe redirecionar a geral
         return Inertia::render('Admin/Evento');
     }
 
     public function create(Request $request): RedirectResponse {
-
         Evento::create($request->validate([
             'local' => 'required',
             'data' => 'required',

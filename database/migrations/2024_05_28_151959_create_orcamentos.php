@@ -24,6 +24,7 @@ return new class extends Migration
                             'CASAMENTO',
                             'FORMATURA',
                             'CONFRATERNIZACAO',
+                            'CHURRASCO',
             ]);
             $table->text('mensagem');
 
