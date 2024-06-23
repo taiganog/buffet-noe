@@ -26,7 +26,7 @@ class EventoController extends Controller {
             $formatarManager->formatarTipo($evento);
             $formatarManager->formatarData($evento, 'd/m/Y H:i');
 
-            return Inertia::render('Admin/Evento', [
+            return Inertia::render('admin.evento', [
                 'evento' => $evento
             ]);
         }
@@ -48,6 +48,6 @@ class EventoController extends Controller {
             'cliente_id' => 'required'
         ]));
 
-        return redirect()->route('welcome');
+        return redirect()->route('admin.dashboard');
     }
 }

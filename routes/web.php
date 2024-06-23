@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\EventoController;
 use App\Http\Controllers\ComplementoController;
 use App\Http\Controllers\ValorController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\FuncionarioController;
+use App\Http\Controllers\Admin\FuncionarioController;
 use App\Http\Controllers\Admin\FeedbackController;
 
 Route::get('/', function () {
@@ -31,7 +31,6 @@ Route::get('/valor', [ValorController::class, 'index']);
 Route::post('/valor', [ValorController::class, 'create']);
 Route::post('/evento', [EventoController::class, 'create']);
 Route::post('/feedback', [FeedbackController::class, 'create']);
-Route::delete('/feedback', [FeedbackController::class, 'destroy']);
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     // Rotas de perfil
@@ -48,9 +47,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
     //  - Funcionários
     Route::get('/funcionario', [FuncionarioController::class, 'index'])->name('admin.funcionario');
+    Route::post('/funcionario', [FuncionarioController::class, 'create'])->name('admin.funcionario.create');
+    Route::delete('/funcionario/d/{id}', [FuncionarioController::class, 'destroy'])->name('admin.funcionario.destroy');
 
     //  - Feedback
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('admin.feedback');
+    Route::post('/feedback', [FeedbackController::class, 'create'])->name('admin.feedback.create');
+    Route::delete('/feedback', [FeedbackController::class, 'destroy'])->name('admin.feedback.destroy');
 });
 
 require __DIR__.'/auth.php';

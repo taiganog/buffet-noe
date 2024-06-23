@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('telefone', length: 15);
             $table->string('chave_pix', length: 100)->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }
