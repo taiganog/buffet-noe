@@ -136,7 +136,7 @@ export default {
                             <textarea class="border border-gray-300 focus:border-yellow-500 focus:ring-yellow-500 w-full" v-model="form.mensagem" />
                         </div>
                         <div class="flex justify-end mt-5">
-                            <PrimaryButton type="submit" @click="ativarPromocao">Ativar</PrimaryButton>
+                            <PrimaryButton type="submit">Ativar</PrimaryButton>
                         </div>
                     </div>
                 </form>

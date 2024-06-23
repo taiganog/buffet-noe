@@ -26,7 +26,7 @@ class EventoController extends Controller {
             $formatarManager->formatarTipo($evento);
             $formatarManager->formatarData($evento, 'd/m/Y H:i');
 
-            return Inertia::render('admin.evento', [
+            return Inertia::render('Admin/Evento', [
                 'evento' => $evento
             ]);
         }

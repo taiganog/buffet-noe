@@ -2,6 +2,10 @@
 import LayoutAdministrativo from '@/Layouts/LayoutAdministrativo.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import IconeExcluir from '@/Components/Icones/IconeExcluir.vue';
+import Modal from '@/Components/Modal.vue';
+import TextInput from '@/Components/TextInput.vue';
+
+import { router } from '@inertiajs/vue3';
 
 export default {
     props: ['funcionarios'],
@@ -9,18 +13,30 @@ export default {
     components: {
         LayoutAdministrativo,
         PrimaryButton,
-        IconeExcluir
+        IconeExcluir,
+        Modal,
+        TextInput
     },
 
     data() {
         return {
-            cadastroFuncionario: false
+            cadastroFuncionario: false,
+
+            form: this.$inertia.form({
+                nome: '',
+                telefone: '',
+                chave_pix: ''
+            })
         }
     },
 
     methods: {
         fecharModal() {
             this.cadastroFuncionario = false
+        },
+
+        enviar() {
+            router.post('/admin/funcionario', this.form)
         }
     }
 }
@@ -52,10 +68,37 @@ export default {
                 <p>{{ funcionario.telefone }}</p>
                 <div class="flex justify-between items-center">
                     <p>{{ funcionario.chave_pix }}</p>
-                    <IconeExcluir @click="$inertia.delete(route('admin.funcionario.destroy', funcionario.id))"/>
+                    <IconeExcluir class="cursor-pointer" @click="$inertia.delete(route('admin.funcionario.destroy', funcionario.id)); this.alert('Funcionário excluído com sucesso!')"/>
                 </div>
             </div>
         </div>
 
+        <!-- Modal para cadastro de funcionário -->
+        <Modal :show="cadastroFuncionario" maxWidth="2xl" @close="fecharModal">
+            <div class="p-5">
+                <div class="text-center font-bold text-2xl">Cadastrar Funcionário</div>
+                <hr class="w-10/12 m-auto border-yellow-400" />
+                <!-- Formulário -->
+                <form @submit.prevent="enviar">
+                    <div class="text-xs mt-5">
+                        <div class="relative my-5">
+                            <label for="nome" class="absolute top-[-10px] left-[10px] z-index-20 bg-white">Nome</label>
+                            <TextInput type="text" class="w-full" id="nome" v-model="form.nome" />
+                        </div>
+                        <div class="relative my-5">
+                            <label for="telefone" class="absolute top-[-10px] left-[10px] z-index-20 bg-white">Telefone</label>
+                            <TextInput type="text" class="w-full" id="telefone" v-model="form.telefone"/>
+                        </div>
+                        <div class="relative my-5">
+                            <label for="chave_pix" class="absolute top-[-10px] left-[10px] z-index-20 bg-white">Chave PIX</label>
+                            <TextInput type="text" class="w-full" id="chave_pix" v-model="form.chave_pix" />
+                        </div>
+                    </div>
+                    <div class="flex flex-row-reverse">
+                        <PrimaryButton type="submit">Cadastrar</PrimaryButton>
+                    </div>
+                </form>
+            </div>
+        </Modal>
     </LayoutAdministrativo>
 </template>

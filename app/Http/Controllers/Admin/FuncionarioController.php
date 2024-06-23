@@ -19,14 +19,14 @@ class FuncionarioController extends Controller
         ]);
     }
 
-    public function create(Request $request): Response {
+    public function create(Request $request): RedirectResponse {
         Funcionario::create($request->validate([
             'nome' => 'required',
             'telefone' => 'required',
             'chave_pix' => 'nullable'
         ]));
 
-        return Inertia::render('Admin/Funcionario');
+        return to_route('admin.funcionario');
     }
 
     public function destroy(int $id): RedirectResponse {
