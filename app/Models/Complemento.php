@@ -14,6 +14,7 @@ class Complemento extends Model {
     protected $table = 'complemento_eventos';
     protected $fillable = [
         'cascata',
+        'crepe',
         'salgado',
         'buffet',
         'maitre',

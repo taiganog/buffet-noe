@@ -68,7 +68,8 @@ export default {
                 <p>{{ funcionario.telefone }}</p>
                 <div class="flex justify-between items-center">
                     <p>{{ funcionario.chave_pix }}</p>
-                    <IconeExcluir class="cursor-pointer" @click="$inertia.delete(route('admin.funcionario.destroy', funcionario.id)); this.alert('Funcionário excluído com sucesso!')"/>
+                    <IconeExcluir class="cursor-pointer"
+                    @click="$inertia.delete(route('admin.funcionario.destroy', funcionario.id))" />
                 </div>
             </div>
         </div>

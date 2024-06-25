@@ -12,6 +12,7 @@ use App\Http\Controllers\ValorController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FuncionarioController;
 use App\Http\Controllers\Admin\FeedbackController;
+use App\Http\Controllers\Admin\PDFController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -54,6 +55,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('admin.feedback');
     Route::post('/feedback', [FeedbackController::class, 'create'])->name('admin.feedback.create');
     Route::delete('/feedback', [FeedbackController::class, 'destroy'])->name('admin.feedback.destroy');
+
+    // - Testes
+    Route::get('/teste', [PDFController::class, 'index'])->name('admin.show');
+    Route::get('/teste/download', [PDFController::class, 'download'])->name('admin.download');
 });
 
 require __DIR__.'/auth.php';

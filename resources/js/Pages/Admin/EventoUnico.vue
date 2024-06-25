@@ -2,7 +2,7 @@
 import LayoutAdministrativo from '@/Layouts/LayoutAdministrativo.vue';
 
 export default {
-    props: ['eventos'],
+    props: ['evento'],
 
     components: {
         LayoutAdministrativo
@@ -11,7 +11,8 @@ export default {
 </script>
 <template>
     <LayoutAdministrativo>
-        <div>{{ eventos }}</div>
+        <div>{{ evento }}</div>
         <br />
+        <div></div>
     </LayoutAdministrativo>
 </template>

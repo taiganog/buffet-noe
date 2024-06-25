@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean('salgado');
             $table->boolean('buffet');
             $table->boolean('maitre');
+            $table->boolean('crepe');
 
             $table->unsignedSmallInteger('porteiro');
             $table->unsignedSmallInteger('montagem');

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+
 use Inertia\Inertia;
-use Inertia\Response;
+//use Inertia\Response;
 
 use App\Http\Controllers\Controller;
 use App\Models\Evento;
@@ -13,7 +15,20 @@ use App\Models\Evento;
 use App\Managers\FormatarManager;
 
 class EventoController extends Controller {
-    public function index($id = null): Response {
+    private function adicionarDetalhes($eventos): void {
+        $formatarManager = new FormatarManager;
+
+        foreach ($eventos as $evento) {
+            $formatarManager->formatarData($evento, 'd/m/Y H:i');
+            $formatarManager->formatarTipo($evento);
+
+            $evento->cliente;
+            $evento->complemento;
+            $evento->valor;
+        }
+    }
+
+    public function index($id = null) {
         $evento = Evento::find($id);
         $formatarManager = new FormatarManager;
 
@@ -26,13 +41,17 @@ class EventoController extends Controller {
             $formatarManager->formatarTipo($evento);
             $formatarManager->formatarData($evento, 'd/m/Y H:i');
 
-            return Inertia::render('Admin/Evento', [
+            return Inertia::render('Admin/EventoUnico', [
                 'evento' => $evento
             ]);
         }
 
         // Sem paramêtros ou se rota não existe redirecionar a geral
-        return Inertia::render('Admin/Evento');
+        $eventos = Evento::all();
+        $this->adicionarDetalhes($eventos);
+        return Inertia::render('Admin/Evento', [
+            'eventos' => $eventos,
+        ]);
     }
 
     public function create(Request $request): RedirectResponse {
