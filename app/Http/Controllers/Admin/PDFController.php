@@ -8,8 +8,6 @@ use App\Http\Controllers\Controller;
 
 use Carbon\Carbon;
 
-use Spatie\LaravelPdf\Facades\Pdf;
-
 use App\Models\Evento;
 use App\Managers\FormatarManager;
 
@@ -43,28 +41,10 @@ class PDFController extends Controller {
             'ajudante_cozinha' => 'Ajudante de Cozinha',
         ];
 
-        return Pdf::view('contrato', [
+        return view('contrato', [
             'data' => Carbon::now(),
             'evento' => $evento,
             'complementos' => $complementos
         ]);
     }
-/*
-    public function download() {
-        $formatarManager = new FormatarManager;
-        $evento = Evento::find(1);
-
-        $formatarManager->formatarData($evento, 'd/m/Y à\s H:i');
-        $formatarManager->formatarTipo($evento);
-        $evento->cliente;
-        $evento->complemento;
-        $evento->valor;
-
-        Pdf::view('contrato', [
-            'data' => Carbon::now(),
-            'evento' => $evento,
-        ]);
-        return $pdf->stream('contrato.pdf');
-    }
-        */
 }

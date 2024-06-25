@@ -58,7 +58,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
     // - Testes
     Route::get('/teste', [PDFController::class, 'index'])->name('admin.show');
-    Route::get('/teste/download', [PDFController::class, 'download'])->name('admin.download');
 });
 
 require __DIR__.'/auth.php';
