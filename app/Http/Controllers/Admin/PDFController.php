@@ -6,15 +6,19 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 
+use Spatie\LaravelPdf\Facades\Pdf;
+
 use Carbon\Carbon;
 
+use App\Enums\Complementos;
 use App\Models\Evento;
 use App\Managers\FormatarManager;
+use App\Models\Complemento;
 
 class PDFController extends Controller {
-    public function index() {
+    public function index($id, $desconto = 0) {
         $formatarManager = new FormatarManager;
-        $evento = Evento::find(2);
+        $evento = Evento::find($id);
 
         $formatarManager->formatarData($evento, 'd/m/Y à\s H:i');
         $formatarManager->formatarTipo($evento);
@@ -22,29 +26,13 @@ class PDFController extends Controller {
         $evento->complemento;
         $evento->valor;
 
-        $complementos = [
-            'cascata' => 'Cascata',
-            'crepe' => 'Crepe',
-            'salgado' => 'Salgado',
-            'buffet' => 'Buffet',
-            'maitre' => 'Maitre',
-            'porteiro' => 'Porteiro',
-            'montagem' => 'Montagem',
-            'taca' => 'Taças',
-            'cumbuca' => 'Cumbuca',
-            'prataria' => 'Kit Prataria (Talheres e pratos)',
-            'louca_sobremesa' => 'Louça de Sobremesa',
-            'cestinha' => 'Cestinha',
-            'garcom' => 'Garcom',
-            'cozinheiro' => 'Cozinheiro',
-            'bar' => 'Bar',
-            'ajudante_cozinha' => 'Ajudante de Cozinha',
-        ];
+        $complementos = Complementos::all();
 
         return view('contrato', [
             'data' => Carbon::now(),
             'evento' => $evento,
-            'complementos' => $complementos
+            'complementos' => $complementos,
+            'desconto' => $desconto,
         ]);
     }
 }

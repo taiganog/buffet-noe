@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<!-- Props: data, evento(cliente, valor etc), complementos(key => value) -->
+<!-- Props: data(datetime), evento(arr, com complementos, cliente e valor), complementos(key => value), desconto(int) -->
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         @vite(['resources/css/app.css'])
     <body class="font-sans antialiased px-10">
         <!-- Header -->
+        <img src="{{ asset('img/logo.png') }}" class="absolute opacity-10 top-[200px] left-[-3px]" />
         <div class="flex justify-center">
             <h1 class="text-2xl font-bold">Buffet Arca de Noé</h1>
         </div>
@@ -42,7 +43,7 @@
                                     <th class="border border-black p-2">SERVIÇO</th>
                                     <th class="border border-black p-2">QTD</th>
                                     <th class="border border-black p-2">VALOR UNITÁRIO</th>
-                                    <th class="border border-black p-2">VALOR</th>
+                                    <th class="border border-black p-2">VALOR TOTAL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,7 +56,7 @@
                                             <!-- Quantidade -->
                                             <td class="border border-black">{{ $evento->complemento->$chave }}</td>
                                             <!-- Valor unitário -->
-                                            <td class="border border-black">R${{ $evento->valor->$chave / $evento->complemento->$chave }},00</td>
+                                            <td class="border border-black">R${{ round($evento->valor->$chave / $evento->complemento->$chave) }},00</td>
                                             <!-- Valor total -->
                                             <td class="border border-black px-10">R${{ $evento->valor->$chave }},00</td>
                                         </tr>
@@ -66,14 +67,14 @@
                                     <td></td>
                                     <td></td>
                                     <td class="font-bold border border-black">Descontos: </td>
-                                    <td class="font-bold border border-black">R$0,00</td></td>
+                                    <td class="font-bold border border-black">R${{ $desconto }},00</td></td>
                                 </tr>
                                 <!-- Informação total -->
                                 <tr class="text-center">
                                     <td></td>
                                     <td></td>
                                     <td class="font-bold border border-black">Total: </td>
-                                    <td class="font-bold border border-black">R${{ $evento->valor->total }},00</td></td>
+                                    <td class="font-bold border border-black">R${{ $evento->valor->total - $desconto }},00</td></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -88,7 +89,7 @@
                 <p>Fica ciente que exceder quantidade de convidados combinado em contrato será cobrado o valor de 30 reais por pessoa.</p>
                 <p>Fica ciente que deverá contar em sua lista de convidados crianças a partir de 5 anos .</p>
                 <p>O adiamento do evento totalizando mais de UM ANO sofrerá atualização para os valores atuais de acordo com a data adiada.</p>
-                <p>Ocorrendo a desistência por parte do Cliente, o valor pago à Empresa não será restituído, em caso inverso, a Empresa se obriga a devolver a quantia total recebida.</p>
+                <p>Ocorrendo a desistência por parte do cliente, o valor pago à Empresa não será restituído, em caso inverso, a Empresa se obriga a devolver a quantia total recebida.</p>
                 <p>Fica acordado que o cliente tem por obrigação de trazer os ingredientes solicitados conforme a lista fornecida pelo responsável do buffet, caso não seja traga conforme o solicitado, o buffet não se responsabilizará pela qualidade e quantidade do cardápio proposto no contrato.</p>
                 <p>Fica ciente a 6 Meses antes do Evento ocorrera a atualização de valores ao preço acima citado com os preços do ano atual do evento.</p>
                 <p>A Empresa por força de Lei, não atenderá bebida alcoólica a menor de idade, caso ocorra o consumo, não será de responsabilidade da Empresa, qualquer fato/incidentes que ocorram com eles.</p>
@@ -109,7 +110,7 @@
                 <hr class="w-1/2 m-auto border-black" />
 
                 <span>Noeberson Silva da Cruz</span>
-                <span>{{  $evento->cliente->nome }}</span>
+                <span>{{ $evento->cliente->nome }}</span>
 
                 <span>CNPJ: 00.000.000/0000-00</span>
                 <span>CPF: {{ $evento->cliente->cpf }}</span>

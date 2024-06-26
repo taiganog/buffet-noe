@@ -44,7 +44,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     //  - Eventos
-    Route::get('/evento/{id?}', [EventoController::class, 'index'])->name('admin.evento');
+    Route::get('/evento', [EventoController::class, 'index'])->name('admin.evento');
+    Route::get('/evento/cadastro', [EventoController::class, 'cadastro'])->name('admin.evento.cadastro');
+    Route::get('/evento/{id}', [EventoController::class, 'index'])->name('admin.evento.unico');
+    Route::get('/evento/{id}/contrato', [PDFController::class, 'index'])->name('admin.evento.contrato');
 
     //  - Funcionários
     Route::get('/funcionario', [FuncionarioController::class, 'index'])->name('admin.funcionario');
@@ -55,9 +58,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('admin.feedback');
     Route::post('/feedback', [FeedbackController::class, 'create'])->name('admin.feedback.create');
     Route::delete('/feedback', [FeedbackController::class, 'destroy'])->name('admin.feedback.destroy');
-
-    // - Testes
-    Route::get('/teste', [PDFController::class, 'index'])->name('admin.show');
 });
 
 require __DIR__.'/auth.php';

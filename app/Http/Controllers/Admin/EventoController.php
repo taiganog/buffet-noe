@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 
 use Inertia\Inertia;
-//use Inertia\Response;
+use Inertia\Response;
 
 use App\Http\Controllers\Controller;
 use App\Models\Evento;
-
+use App\Enums\Complementos;
 use App\Managers\FormatarManager;
 
 class EventoController extends Controller {
@@ -42,15 +41,22 @@ class EventoController extends Controller {
             $formatarManager->formatarData($evento, 'd/m/Y H:i');
 
             return Inertia::render('Admin/EventoUnico', [
-                'evento' => $evento
+                'evento' => $evento,
+                'complementos' => Complementos::all(),
             ]);
         }
 
         // Sem paramêtros ou se rota não existe redirecionar a geral
-        $eventos = Evento::all();
+        $eventos = Evento::orderBy('data', 'desc')->get();
         $this->adicionarDetalhes($eventos);
         return Inertia::render('Admin/Evento', [
             'eventos' => $eventos,
+        ]);
+    }
+
+    public function cadastro() {
+        return Inertia::render('Admin/EventoCadastro', [
+            'complementos' => Complementos::all(),
         ]);
     }
 

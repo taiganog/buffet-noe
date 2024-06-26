@@ -36,7 +36,25 @@ export default {
         },
 
         enviar() {
-            router.post('/admin/funcionario', this.form)
+            router.post('admin.funcionario.create', this.form)
+        },
+
+        alert(id) {
+            this.$swal({
+                title: "Excluir funcionário?",
+                text: "Não será possível refazer esta ação!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Excluir!",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    router.delete(route('admin.funcionario.destroy', id))
+                    this.$swal('Funcionário excluído!', '', 'success')
+                }
+            })
         }
     }
 }
@@ -69,7 +87,7 @@ export default {
                 <div class="flex justify-between items-center">
                     <p>{{ funcionario.chave_pix }}</p>
                     <IconeExcluir class="cursor-pointer"
-                    @click="$inertia.delete(route('admin.funcionario.destroy', funcionario.id))" />
+                    @click="alert(funcionario.id)" />
                 </div>
             </div>
         </div>
