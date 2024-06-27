@@ -45,7 +45,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
     //  - Eventos
     Route::get('/evento', [EventoController::class, 'index'])->name('admin.evento');
-    Route::get('/evento/cadastro', [EventoController::class, 'cadastro'])->name('admin.evento.cadastro');
+    Route::get('/evento/cadastro/cliente', [EventoController::class, 'cadastroCliente'])->name('admin.evento.cadastro.cliente');
+    Route::get('/evento/cadastro/evento', [EventoController::class, 'cadastroEvento'])->name('admin.evento.cadastro.evento');
+    Route::get('/evento/cadastro/complemento', [EventoController::class, 'cadastroComplemento'])->name('admin.evento.cadastro.complemento');
+
     Route::get('/evento/{id}', [EventoController::class, 'index'])->name('admin.evento.unico');
     Route::get('/evento/{id}/contrato', [PDFController::class, 'index'])->name('admin.evento.contrato');
 

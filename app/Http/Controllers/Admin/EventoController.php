@@ -54,9 +54,17 @@ class EventoController extends Controller {
         ]);
     }
 
-    public function cadastro() {
-        return Inertia::render('Admin/EventoCadastro', [
-            'complementos' => Complementos::all(),
+    public function cadastroCliente(): Response {
+        return Inertia::render('Admin/EventoCadastroCliente');
+    }
+
+    public function cadastroEvento(): Response {
+        return Inertia::render('Admin/EventoCadastroEvento');
+    }
+
+    public function cadastroComplemento(): Response {
+        return Inertia::render('Admin/EventoCadastroComplemento', [
+            'complementos' => Complementos::all()
         ]);
     }
 

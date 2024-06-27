@@ -36,7 +36,7 @@ export default {
             <!-- Header -->
             <div class="flex justify-between items-center">
                 <p class="text-gray-400 text-center italic">Clique em um card para ver detalhes</p>
-                <PrimaryButton @click="$inertia.get(route('admin.evento.cadastro'))">Novo evento</PrimaryButton>
+                <PrimaryButton @click="$inertia.get(route('admin.evento.cadastro.cliente'))">Novo evento</PrimaryButton>
             </div>
             <hr class="my-2 border-yellow-400"/>
             <!-- Titulo tabela -->
