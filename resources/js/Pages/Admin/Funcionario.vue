@@ -64,8 +64,7 @@ export default {
     <LayoutAdministrativo>
         <div class="shadow-xl bg-white p-5 mx-40 mt-24 max-h-[700px] overflow-auto">
             <!-- Header -->
-            <div class="flex justify-between items-center">
-                <p class="text-gray-400 text-center italic">Clique em um card para expandi-lo</p>
+            <div class="flex flex-row-reverse items-center">
                 <PrimaryButton @click="cadastroFuncionario = true">Cadastrar Funcionário</PrimaryButton>
             </div>
             <hr class="my-2 border-yellow-400"/>

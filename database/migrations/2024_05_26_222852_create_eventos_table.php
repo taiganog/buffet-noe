@@ -18,7 +18,7 @@ return new class extends Migration
             $table->datetime('data');
             $table->unsignedSmallInteger('duracao');
             $table->enum('tipo', ['FESTA_INFANTIL',
-                                '15_ANOS',
+                                'FESTA_15_ANOS',
                                 'FESTA_ADULTO',
                                 'CASAMENTO',
                                 'FORMATURA',

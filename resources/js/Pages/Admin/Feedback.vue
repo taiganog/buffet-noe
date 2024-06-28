@@ -7,7 +7,7 @@ import TextInput from '@/Components/TextInput.vue';
 import { router } from '@inertiajs/vue3';
 
 export default {
-    props: ['feedbacks', 'promocaoAtiva'],
+    props: ['feedbacks', 'promocaoAtiva', 'tipo'],
 
     components: {
         LayoutAdministrativo,
@@ -77,7 +77,7 @@ export default {
             class="grid grid-cols-3 my-3 p-2 rounded-md hover:bg-gray-100 transition duration-300 text-md"
             @click="feedbackModal = true; id = key">
                 <div>
-                    <span><b class="text-yellow-500">{{ feedback.tipo }}</b> - {{ feedback.nome }}</span>
+                    <span><b class="text-yellow-500">{{ tipo[feedback.tipo] }}</b> - {{ feedback.nome }}</span>
                 </div>
                 <div class="truncate">{{ feedback.mensagem }}</div>
                 <div class="text-right">{{ feedback.created_at }}</div>
@@ -95,7 +95,7 @@ export default {
 
                 <!-- Conteúdo -->
                 <div class="grid grid-cols-2 gap-3 mt-5 text-sm">
-                    <p class="border-b border-l p-1"><b>Tipo:</b> {{ feedbacks[id].tipo }}</p>
+                    <p class="border-b border-l p-1"><b>Tipo:</b> {{ tipo[feedbacks[id].tipo] }}</p>
                     <p class="border-b border-l p-1"><b>Email:</b> {{ feedbacks[id].email }}</p>
                     <p class="border-b border-l p-1"><b>Telefone:</b> {{ feedbacks[id].telefone }}</p>
                     <p class="border-b border-l p-1"><b>Data:</b> {{ feedbacks[id].created_at }}</p>

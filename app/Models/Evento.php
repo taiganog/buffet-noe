@@ -28,6 +28,10 @@ class Evento extends Model {
         'cliente_id'
     ];
 
+    public function formatarData($formato = 'd/m/Y'): void {
+        $this->data = Carbon::parse($this->data)->format($formato);
+    }
+
     public function equipe(): HasMany {
         return $this->hasMany(Equipe::class);
     }

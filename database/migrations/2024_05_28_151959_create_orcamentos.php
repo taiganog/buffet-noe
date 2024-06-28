@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email', length: 100);
             $table->enum('tipo', [
                             'FESTA_INFANTIL',
-                            '15_ANOS',
+                            'FESTA_15_ANOS',
                             'FESTA_ADULTO',
                             'CASAMENTO',
                             'FORMATURA',

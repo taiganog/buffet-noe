@@ -13,6 +13,7 @@ class Valor extends Model
     protected $table = 'valor_eventos';
     protected $fillable = [
         'cascata',
+        'crepe',
         'salgado',
         'buffet',
         'maitre',

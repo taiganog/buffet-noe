@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -8,6 +8,8 @@ use Inertia\Inertia;
 use Inertia\Response;
 
 use App\Models\Cliente;
+
+use App\Http\Controllers\Controller;
 
 class ClienteController extends Controller {
 
@@ -27,6 +29,6 @@ class ClienteController extends Controller {
             'telefone_2' => 'required'
         ]));
 
-        return redirect()->route('welcome');
+        return back();
     }
 }

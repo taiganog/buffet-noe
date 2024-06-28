@@ -10,20 +10,11 @@ use Carbon\Carbon;
 
 use App\Http\Controllers\Controller;
 
+use App\Enums\Tipos;
 use App\Models\Orcamento;
 use App\Models\Promocao;
 
-use App\Managers\FormatarManager;
-
 class FeedbackController extends Controller {
-    // Formatar o tipo de orçamentos
-    private function formatar($orcamentos): void {
-        $formatarManager = new FormatarManager;
-        foreach($orcamentos as $orcamento) {
-            $formatarManager->formatarTipo($orcamento);
-        }
-    }
-
     // Verificar se há promoção ativa
     private function verificarPromocaoAtiva(): string {
         $programada = 0;
@@ -51,14 +42,14 @@ class FeedbackController extends Controller {
     public function index(): Response {
         // Pegar orcamento e formatar o tipo para apresentação
         $orcamentos = Orcamento::orderBy('created_at', 'desc')->get();
-        $this->formatar($orcamentos);
 
         // Vereficar se há promoção ativa ou por vir
         $promocaoAtiva = $this->verificarPromocaoAtiva();
 
         return Inertia::render('Admin/Feedback', [
             'feedbacks' => $orcamentos,
-            'promocaoAtiva' => $promocaoAtiva
+            'promocaoAtiva' => $promocaoAtiva,
+            'tipo' => Tipos::all()
         ]);
     }
 

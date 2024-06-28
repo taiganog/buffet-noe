@@ -7,7 +7,7 @@ import Modal from '@/Components/Modal.vue';
 import { router } from '@inertiajs/vue3';
 
 export default {
-    props: ['eventos', 'complementos'],
+    props: ['eventos', 'complementos', 'tipo'],
 
     components: {
         LayoutAdministrativo,
@@ -36,7 +36,7 @@ export default {
             <!-- Header -->
             <div class="flex justify-between items-center">
                 <p class="text-gray-400 text-center italic">Clique em um card para ver detalhes</p>
-                <PrimaryButton @click="$inertia.get(route('admin.evento.cadastro.cliente'))">Novo evento</PrimaryButton>
+                <PrimaryButton @click="$inertia.get(route('admin.evento.cadastro'))">Novo evento</PrimaryButton>
             </div>
             <hr class="my-2 border-yellow-400"/>
             <!-- Titulo tabela -->
@@ -50,9 +50,9 @@ export default {
             </div>
             <!-- Conteúdo dos eventos -->
             <div v-for="(evento, key) in eventos"
-            @click = "$inertia.get(route('admin.evento', evento.id))"
+            @click = "$inertia.get(route('admin.evento.unico', evento.id))"
             class="grid grid-cols-5 text-center my-3 py-2 rounded-md hover:bg-gray-100 transition duration-300 text-md cursor-pointer">
-                <span class="font-bold">{{ evento.tipo }}</span>
+                <span class="font-bold">{{ tipo[evento.tipo] }}</span>
                 <span>{{ evento.cliente.nome }}</span>
                 <span>{{ evento.duracao }} horas</span>
                 <span>{{ evento.numero_convidados }} convidados</span>

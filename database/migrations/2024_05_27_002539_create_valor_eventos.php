@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedSmallInteger('cascata');
+            $table->unsignedSmallInteger('crepe');
             $table->unsignedSmallInteger('salgado');
             $table->unsignedSmallInteger('buffet');
             $table->unsignedSmallInteger('maitre');

@@ -2,7 +2,7 @@
 import LayoutAdministrativo from '@/Layouts/LayoutAdministrativo.vue';
 
 export default {
-    props: ['numeroEventosTotal', 'eventos', 'valorDoMes', 'valorRecebido'],
+    props: ['numeroEventosTotal', 'eventos', 'valorDoMes', 'valorRecebido', 'tipo'],
 
     components: {
         LayoutAdministrativo
@@ -27,10 +27,10 @@ export default {
 
                 <div class="p-5 text-md">
                     <div v-for="evento in eventos">
-                        <a :href="route('admin.evento', evento.id)">
+                        <a :href="route('admin.evento.unico', evento.id)">
                             <div class="flex justify-between hover:cursor-pointer hover:bg-gray-200 transition duration-300 p-1 rounded">
                                 <div>
-                                    <span><b>{{ evento.tipo }}</b> - </span>
+                                    <span><b>{{ tipo[evento.tipo] }}</b> - </span>
                                     <span>{{ evento.cliente.nome }}</span>
                                 </div>
                                 <span>{{ evento.data }}</span>

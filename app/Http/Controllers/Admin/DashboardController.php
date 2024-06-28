@@ -9,8 +9,7 @@ use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 
 use App\Models\Evento;
-
-use App\Managers\FormatarManager;
+use App\Enums\Tipos;
 
 class DashboardController extends Controller {
     // Retorna os clientes dos eventos no objeto evento
@@ -36,7 +35,9 @@ class DashboardController extends Controller {
         $eventos = $this->pegarEventosDoMes();
 
         foreach ($eventos as $evento) {
-            $valorDoMes += $evento->valor->total;
+            if($evento->valor) {
+                $valorDoMes += $evento->valor->total;
+            }
         }
 
         return $valorDoMes;
@@ -44,11 +45,8 @@ class DashboardController extends Controller {
 
     // Formata data e tipo dos eventos
     public function formatar($eventos): void {
-        $formatarManager = new FormatarManager;
-
         foreach($eventos as $evento) {
-            $formatarManager->formatarData($evento, 'd/m/Y');
-            $formatarManager->formatarTipo($evento);
+            $evento->formatarData();
         }
     }
 
@@ -71,7 +69,9 @@ class DashboardController extends Controller {
         ])->get();
 
         foreach($eventos as $evento) {
-            $valorRecebido += $evento->valor->total;
+            if($evento->valor) {
+                $valorRecebido += $evento->valor->total;
+            }
         }
 
         return $valorRecebido;
@@ -91,6 +91,7 @@ class DashboardController extends Controller {
             'numeroEventosTotal' => $numeroEventosTotal,
             'eventos' => $eventos,
             'valorRecebido' => $valorRecebido,
+            'tipo' => Tipos::all()
         ]);
     }
 }

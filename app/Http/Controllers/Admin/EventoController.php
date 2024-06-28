@@ -10,17 +10,15 @@ use Inertia\Response;
 
 use App\Http\Controllers\Controller;
 use App\Models\Evento;
+use App\Models\Cliente;
+
 use App\Enums\Complementos;
-use App\Managers\FormatarManager;
+use App\Enums\Tipos;
 
 class EventoController extends Controller {
     private function adicionarDetalhes($eventos): void {
-        $formatarManager = new FormatarManager;
-
         foreach ($eventos as $evento) {
-            $formatarManager->formatarData($evento, 'd/m/Y H:i');
-            $formatarManager->formatarTipo($evento);
-
+            $evento->formatarData();
             $evento->cliente;
             $evento->complemento;
             $evento->valor;
@@ -29,16 +27,13 @@ class EventoController extends Controller {
 
     public function index($id = null) {
         $evento = Evento::find($id);
-        $formatarManager = new FormatarManager;
 
         // Checar se evento existe antes de entregar a rota de detalhes
         if($evento) {
             $evento->cliente;
             $evento->complemento;
             $evento->valor;
-
-            $formatarManager->formatarTipo($evento);
-            $formatarManager->formatarData($evento, 'd/m/Y H:i');
+            $evento->formatarData();
 
             return Inertia::render('Admin/EventoUnico', [
                 'evento' => $evento,
@@ -51,36 +46,41 @@ class EventoController extends Controller {
         $this->adicionarDetalhes($eventos);
         return Inertia::render('Admin/Evento', [
             'eventos' => $eventos,
+            'tipo' => Tipos::all()
         ]);
     }
 
-    public function cadastroCliente(): Response {
-        return Inertia::render('Admin/EventoCadastroCliente');
-    }
-
-    public function cadastroEvento(): Response {
-        return Inertia::render('Admin/EventoCadastroEvento');
-    }
-
-    public function cadastroComplemento(): Response {
-        return Inertia::render('Admin/EventoCadastroComplemento', [
-            'complementos' => Complementos::all()
+    public function cadastro(): Response {
+        return Inertia::render('Admin/EventoCadastro', [
+            'complementos' => Complementos::all(),
+            'clientes' => Cliente::all(),
+            'tipos' => Tipos::all()
         ]);
     }
 
     public function create(Request $request): RedirectResponse {
-        Evento::create($request->validate([
+        $request->validate([
             'local' => 'required',
-            'data' => 'required',
-            'duracao' => 'required',
             'tipo' => 'required',
+            'duracao' => 'required',
+            'dia' => 'required',
             'numero_convidados' => 'required',
-            'observacao' => 'required',
+            'observacao' => 'nullable',
+        ]);
 
-            // FK
-            'cliente_id' => 'required'
-        ]));
+        $cliente = Cliente::where('cpf', $request->input('cpf_cliente'))->first()->id;
 
-        return redirect()->route('admin.dashboard');
+        $evento = new Evento;
+        $evento->local = $request->input('local');
+        $evento->data = $request->input('dia');
+        $evento->duracao = $request->input('duracao');
+        $evento->tipo = $request->input('tipo');
+        $evento->numero_convidados = $request->input('numero_convidados');
+        $evento->observacao = $request->input('observacao');
+        $evento->cliente_id = $cliente;
+
+        $evento->save();
+
+        return redirect()->route('admin.evento.unico', $evento->id);
     }
 }

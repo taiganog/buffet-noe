@@ -8,7 +8,7 @@
         <!-- Header -->
         <img src="{{ asset('img/logo.png') }}" class="absolute opacity-10 top-[200px] left-[-3px]" />
         <div class="flex justify-center">
-            <h1 class="text-2xl font-bold">Buffet Arca de Noé</h1>
+            <h1 class="text-2xl font-bold p-2">Buffet Arca de Noé</h1>
         </div>
         <!-- Conteúdo -->
         <div class="text-[10px]">

@@ -21,7 +21,7 @@ class OrcamentoFactory extends Factory
             'email' => $this->faker->email(),
             'telefone' => $this->faker->numerify('(##) #####-####'),
             'tipo' => $this->faker->randomElement(['FESTA_INFANTIL',
-                '15_ANOS',
+                'FESTA_15_ANOS',
                 'FESTA_ADULTO',
                 'CASAMENTO',
                 'FORMATURA',
