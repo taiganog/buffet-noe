@@ -35,9 +35,7 @@ class DashboardController extends Controller {
         $eventos = $this->pegarEventosDoMes();
 
         foreach ($eventos as $evento) {
-            if($evento->valor) {
-                $valorDoMes += $evento->valor->total;
-            }
+            $valorDoMes += $evento->valor->total;
         }
 
         return $valorDoMes;
@@ -69,9 +67,7 @@ class DashboardController extends Controller {
         ])->get();
 
         foreach($eventos as $evento) {
-            if($evento->valor) {
-                $valorRecebido += $evento->valor->total;
-            }
+            $valorRecebido += $evento->valor->total;
         }
 
         return $valorRecebido;

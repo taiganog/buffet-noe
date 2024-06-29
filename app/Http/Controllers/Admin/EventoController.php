@@ -33,11 +33,12 @@ class EventoController extends Controller {
             $evento->cliente;
             $evento->complemento;
             $evento->valor;
-            $evento->formatarData();
+            $evento->formatarData('d/m/Y à\s H:i');
 
             return Inertia::render('Admin/EventoUnico', [
                 'evento' => $evento,
                 'complementos' => Complementos::all(),
+                'tipo' => Tipos::all()
             ]);
         }
 

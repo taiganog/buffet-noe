@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
+use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 
 use Spatie\LaravelPdf\Facades\Pdf;
@@ -15,16 +15,17 @@ use App\Models\Evento;
 use App\Managers\FormatarManager;
 use App\Models\Complemento;
 
+use App\Enums\Tipos;
+
 class PDFController extends Controller {
     public function index($id, $desconto = 0) {
-        $formatarManager = new FormatarManager;
         $evento = Evento::find($id);
 
-        $formatarManager->formatarData($evento, 'd/m/Y à\s H:i');
-        $formatarManager->formatarTipo($evento);
+        $evento->formatarData('d/m/Y');
         $evento->cliente;
         $evento->complemento;
         $evento->valor;
+        $evento->tipo = Tipos::all()[$evento->tipo];
 
         $complementos = Complementos::all();
 

@@ -13,6 +13,27 @@ use App\Models\Complemento;
 use App\Models\Valor;
 
 class ComplementoController extends Controller {
+    private function calcularTotal(Request $request): int {
+        $total = 0;
+        $total += $request->input('cascata_valor');
+        $total += $request->input('salgado_valor');
+        $total += $request->input('buffet_valor');
+        $total += $request->input('maitre_valor');
+        $total += $request->input('porteiro_valor');
+        $total += $request->input('montagem_valor');
+        $total += $request->input('taca_valor');
+        $total += $request->input('cumbuca_valor');
+        $total += $request->input('prataria_valor');
+        $total += $request->input('louca_sobremesa_valor');
+        $total += $request->input('cestinha_valor');
+        $total += $request->input('garcom_valor');
+        $total += $request->input('cozinheiro_valor');
+        $total += $request->input('bar_valor');
+        $total += $request->input('ajudante_cozinha_valor');
+
+        return $total;
+    }
+
     public function create(Request $request): RedirectResponse {
         $request->validate([
             'cascata' => 'nullable|numeric',
@@ -46,8 +67,9 @@ class ComplementoController extends Controller {
             'ajudante_cozinha' => 'nullable|numeric',
             'ajudante_cozinha_valor' => 'nullable|numeric',
 
-            'entradas' => 'required',
+            'entrada' => 'required',
             'cardapio' => 'required',
+            'evento_id' => 'required',
         ]);
 
         Complemento::create([
@@ -66,9 +88,10 @@ class ComplementoController extends Controller {
             'cozinheiro' => $request->input('cozinheiro'),
             'bar' => $request->input('bar'),
             'ajudante_cozinha' => $request->input('ajudante_cozinha'),
-
             'entradas' => $request->input('entrada'),
             'cardapio' => $request->input('cardapio'),
+            // FK
+            'evento_id' => $request->input('evento_id'),
         ]);
 
         Valor::create([
@@ -87,6 +110,9 @@ class ComplementoController extends Controller {
             'cozinheiro' => $request->input('cozinheiro_valor'),
             'bar' => $request->input('bar_valor'),
             'ajudante_cozinha' => $request->input('ajudante_cozinha_valor'),
+            'total' => $this->calcularTotal($request),
+            // FK
+            'evento_id' => $request->input('evento_id'),
         ]);
 
         return redirect()->route('admin.evento.unico', $request->input('evento_id'));

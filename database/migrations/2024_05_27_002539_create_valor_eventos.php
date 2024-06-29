@@ -14,22 +14,22 @@ return new class extends Migration
         Schema::create('valor_eventos', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedSmallInteger('cascata');
-            $table->unsignedSmallInteger('crepe');
-            $table->unsignedSmallInteger('salgado');
-            $table->unsignedSmallInteger('buffet');
-            $table->unsignedSmallInteger('maitre');
-            $table->unsignedSmallInteger('porteiro');
-            $table->unsignedSmallInteger('montagem');
-            $table->unsignedSmallInteger('taca');
-            $table->unsignedSmallInteger('cumbuca');
-            $table->unsignedSmallInteger('prataria');
-            $table->unsignedSmallInteger('louca_sobremesa');
-            $table->unsignedSmallInteger('cestinha');
-            $table->unsignedSmallInteger('garcom');
-            $table->unsignedSmallInteger('cozinheiro');
-            $table->unsignedSmallInteger('bar');
-            $table->unsignedSmallInteger('ajudante_cozinha');
+            $table->unsignedSmallInteger('cascata')->nullable();
+            $table->unsignedSmallInteger('crepe')->nullable();
+            $table->unsignedSmallInteger('salgado')->nullable();
+            $table->unsignedSmallInteger('buffet')->nullable();
+            $table->unsignedSmallInteger('maitre')->nullable();
+            $table->unsignedSmallInteger('porteiro')->nullable();
+            $table->unsignedSmallInteger('montagem')->nullable();
+            $table->unsignedSmallInteger('taca')->nullable();
+            $table->unsignedSmallInteger('cumbuca')->nullable();
+            $table->unsignedSmallInteger('prataria')->nullable();
+            $table->unsignedSmallInteger('louca_sobremesa')->nullable();
+            $table->unsignedSmallInteger('cestinha')->nullable();
+            $table->unsignedSmallInteger('garcom')->nullable();
+            $table->unsignedSmallInteger('cozinheiro')->nullable();
+            $table->unsignedSmallInteger('bar')->nullable();
+            $table->unsignedSmallInteger('ajudante_cozinha')->nullable();
 
             $table->unsignedSmallInteger('total');
 

@@ -14,23 +14,23 @@ return new class extends Migration
         Schema::create('complemento_eventos', function(Blueprint $table) {
             $table->id();
 
-            $table->boolean('cascata');
-            $table->boolean('salgado');
-            $table->boolean('buffet');
-            $table->boolean('maitre');
-            $table->boolean('crepe');
+            $table->boolean('cascata')->nullable();
+            $table->boolean('salgado')->nullable();
+            $table->boolean('buffet')->nullable();
+            $table->boolean('maitre')->nullable();
+            $table->boolean('crepe')->nullable();
 
-            $table->unsignedSmallInteger('porteiro');
-            $table->unsignedSmallInteger('montagem');
-            $table->unsignedSmallInteger('taca');
-            $table->unsignedSmallInteger('cumbuca');
-            $table->unsignedSmallInteger('prataria');
-            $table->unsignedSmallInteger('louca_sobremesa');
-            $table->unsignedSmallInteger('cestinha');
-            $table->unsignedSmallInteger('garcom');
-            $table->unsignedSmallInteger('cozinheiro');
-            $table->unsignedSmallInteger('bar');
-            $table->unsignedSmallInteger('ajudante_cozinha');
+            $table->unsignedSmallInteger('porteiro')->nullable();
+            $table->unsignedSmallInteger('montagem')->nullable();
+            $table->unsignedSmallInteger('taca')->nullable();
+            $table->unsignedSmallInteger('cumbuca')->nullable();
+            $table->unsignedSmallInteger('prataria')->nullable();
+            $table->unsignedSmallInteger('louca_sobremesa')->nullable();
+            $table->unsignedSmallInteger('cestinha')->nullable();
+            $table->unsignedSmallInteger('garcom')->nullable();
+            $table->unsignedSmallInteger('cozinheiro')->nullable();
+            $table->unsignedSmallInteger('bar')->nullable();
+            $table->unsignedSmallInteger('ajudante_cozinha')->nullable();
 
             $table->text('entradas')->nullable();
             $table->text('cardapio')->nullable();
