@@ -4,6 +4,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import IconeExcluir from '@/Components/Icones/IconeExcluir.vue';
 import Modal from '@/Components/Modal.vue';
 import TextInput from '@/Components/TextInput.vue';
+import InputError from '@/Components/InputError.vue';
 
 import { router } from '@inertiajs/vue3';
 
@@ -15,7 +16,8 @@ export default {
         PrimaryButton,
         IconeExcluir,
         Modal,
-        TextInput
+        TextInput,
+        InputError
     },
 
     data() {
@@ -36,7 +38,9 @@ export default {
         },
 
         enviar() {
-            router.post('admin.funcionario.create', this.form)
+            this.form.post(route('admin.funcionario.create'), {
+                onSuccess: () => { this.cadastroFuncionario = false; this.$swal('Funcionário criado!', '', 'success') }
+            })
         },
 
         alert(id) {
@@ -100,12 +104,14 @@ export default {
                 <form @submit.prevent="enviar">
                     <div class="text-xs mt-5">
                         <div class="relative my-5">
-                            <label for="nome" class="absolute top-[-10px] left-[10px] z-index-20 bg-white">Nome</label>
+                            <label for="nome" class="absolute top-[-10px] left-[10px] z-index-20 bg-white">Nome *</label>
                             <TextInput type="text" class="w-full" id="nome" v-model="form.nome" />
+                            <InputError class="mt-2" :message="form.errors.nome" />
                         </div>
                         <div class="relative my-5">
-                            <label for="telefone" class="absolute top-[-10px] left-[10px] z-index-20 bg-white">Telefone</label>
-                            <TextInput type="text" class="w-full" id="telefone" v-model="form.telefone"/>
+                            <label for="telefone" class="absolute top-[-10px] left-[10px] z-index-20 bg-white">Telefone *</label>
+                            <TextInput type="text" class="w-full" id="telefone" v-model="form.telefone" v-mask="['(##) ####-####', '(##) #####-####']"/>
+                            <InputError class="mt-2" :message="form.errors.telefone" />
                         </div>
                         <div class="relative my-5">
                             <label for="chave_pix" class="absolute top-[-10px] left-[10px] z-index-20 bg-white">Chave PIX</label>

@@ -24,9 +24,14 @@ class FuncionarioController extends Controller
             'nome' => 'required',
             'telefone' => 'required',
             'chave_pix' => 'nullable'
-        ]));
+        ],
+        [
+            'nome.required' => 'O nome é obrigatório',
+            'telefone.required' => 'O telefone é obrigatório',
+        ]
+    ));
 
-        return to_route('admin.funcionario');
+        return back();
     }
 
     public function destroy(int $id): RedirectResponse {

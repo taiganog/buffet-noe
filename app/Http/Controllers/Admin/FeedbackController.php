@@ -58,9 +58,15 @@ class FeedbackController extends Controller {
             'data_inicial' => 'required',
             'data_final' => 'required',
             'mensagem' => 'required',
-        ]));
+        ],
+        [
+            'data_inicial.required' => 'A data inicial é obrigatória',
+            'data_final.required' => 'A data final é obrigatória',
+            'mensagem.required' => 'A mensagem é obrigatória',
+        ]
+    ));
 
-        return to_route('admin.dashboard');
+        return back();
     }
 
     public function destroy(int $id): RedirectResponse {

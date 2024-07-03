@@ -4,6 +4,9 @@ import ConditionalButton from '@/Components/ConditionalButton.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import ConditionalInput from '@/Components/ConditionalInput.vue';
 import Modal from '@/Components/Modal.vue';
+import InputError from '@/Components/InputError.vue';
+
+import { router } from '@inertiajs/vue3';
 
 export default {
     props: ['evento', 'complementos', 'tipo'],
@@ -13,12 +16,14 @@ export default {
         ConditionalButton,
         PrimaryButton,
         ConditionalInput,
-        Modal
+        Modal,
+        InputError,
     },
 
     data() {
         return {
             complementoModal: false,
+            editarComplementoModal: false,
 
             // Formulário de complemento e valores
             formComplemento: this.$inertia.form({
@@ -41,6 +46,7 @@ export default {
                 entrada: null, cardapio: null,
                 evento_id: this.evento.id
             }),
+
             // Valor checkboxes
             salgado: false,
             buffet: false,
@@ -63,7 +69,15 @@ export default {
 
     methods: {
         enviarComplemento() {
-            this.formComplemento.post(route('admin.complemento.create', this.evento.id))
+            this.formComplemento.post(route('admin.complemento.create', this.evento.id), {
+                onSuccess: () => this.complementoModal = false
+            })
+        },
+
+        enviarEditarComplemento() {
+            this.formEditarComplemento.patch(route('admin.complemento.update', this.evento.complemento.id), {
+                onSuccess: () => this.editarComplementoModal = false
+            })
         }
     },
 
@@ -80,7 +94,12 @@ export default {
             <!-- Header -->
             <div class="flex justify-between text-center font-bold text-xl">
                 <h2>{{ tipo[evento.tipo] }} - {{ evento.cliente.nome }}</h2>
-                <ConditionalButton :title="contrato" :disabled="!evento.complemento" @click="$inertia.get(route('admin.evento.contrato', evento.id))">Gerar contrato</ConditionalButton>
+                <div class="flex gap-3">
+                    <div v-if="evento.complemento">
+                        <PrimaryButton @click="$inertia.get(route('admin.evento.editar', evento.id))">Editar</PrimaryButton>
+                    </div>
+                    <ConditionalButton :title="contrato" :disabled="!evento.complemento" @click="$inertia.get(route('admin.evento.contrato', evento.id))">Gerar contrato</ConditionalButton>
+                </div>
             </div>
             <hr class="my-2 border-yellow-400"/>
             <!-- Conteúdo -->
@@ -100,7 +119,6 @@ export default {
                         <hr class="w-3/12 m-auto border-yellow-400" />
                     </div>
                     <!-- Mostrar complementos se evento já possuir serviços cadastrados -->
-
                     <div v-if="evento.complemento">
                         <div class="grid grid-cols-3 gap-2 font-bold p-2">
                             <p>Serviço</p>
@@ -137,7 +155,6 @@ export default {
             <!-- Título -->
             <div class="text-center">
                 <h3 class="font-bold text-2xl p-4">Cadastrar Serviços</h3>
-                {{ formComplemento.errors }}
                 <hr class="border-yellow-400 w-10/12 m-auto" />
             </div>
             <form @submit.prevent="enviarComplemento">
@@ -297,10 +314,12 @@ export default {
                     <div class="relative my-5">
                         <label for="entrada" class="absolute top-[-10px] left-[10px] z-index-20 bg-white">Entradas</label>
                         <textarea class="w-full border border-gray-300 focus:border-yellow-500 focus:ring-yellow-500 h-16" id="entrada" v-model="formComplemento.entrada"></textarea>
+                        <InputError :message="formComplemento.errors.entrada" class="mt-2" />
                     </div>
                     <div class="relative my-5">
                         <label for="cardapio" class="absolute top-[-10px] left-[10px] z-index-20 bg-white">Cardápio</label>
                         <textarea class="w-full border border-gray-300 focus:border-yellow-500 focus:ring-yellow-500 h-16" id="cardapio" v-model="formComplemento.cardapio"></textarea>
+                        <InputError :message="formComplemento.errors.cardapio" class="mt-2" />
                     </div>
                 </div>
                 <!-- Cadastrar -->

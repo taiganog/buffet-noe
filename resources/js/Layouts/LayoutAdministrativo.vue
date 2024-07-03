@@ -29,7 +29,7 @@ export default {
 
                 <hr class="border-black w-3/12 my-5" />
 
-                <NavLink :href="route('admin.evento')" :active="route().current('admin.evento')">
+                <NavLink :href="route('admin.evento')" :active="$page.url.startsWith('/admin/evento')">
                     Eventos
                 </NavLink>
 

@@ -3,8 +3,7 @@ import LayoutAdministrativo from '@/Layouts/LayoutAdministrativo.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Modal from '@/Components/Modal.vue';
 import TextInput from '@/Components/TextInput.vue';
-
-import { router } from '@inertiajs/vue3';
+import InputError from '@/Components/InputError.vue';
 
 export default {
     props: ['feedbacks', 'promocaoAtiva', 'tipo'],
@@ -13,7 +12,8 @@ export default {
         LayoutAdministrativo,
         PrimaryButton,
         Modal,
-        TextInput
+        TextInput,
+        InputError
     },
 
     data() {
@@ -36,7 +36,9 @@ export default {
         },
 
         enviar() {
-            router.post('/admin/feedback', this.form)
+            this.form.post(route('admin.feedback.create'), {
+                onSuccess: () => { this.feedbackModal = false; this.$swal('Promoção criada!', '', 'success') }
+            })
         }
     },
 
@@ -49,7 +51,6 @@ export default {
             } else {
                 return 'text-yellow-500';
             }
-
         }
     }
 }
@@ -124,16 +125,20 @@ export default {
                             <div class="relative">
                                 <label for="data_inicial" class="absolute top-[-10px] left-[10px] z-index-20 bg-white">Data inicial</label>
                                 <TextInput id="data_inicial" class="w-full" type="date" v-model="form.data_inicial" />
+                                <InputError :message="form.errors.data_inicial" class="mt-2" />
+
                             </div>
                             <div class="relative">
                                 <label for="data_final" class="absolute top-[-10px] left-[10px] z-index-20 bg-white">Data final</label>
                                 <TextInput id="data_inicial" class="w-full" type="date" v-model="form.data_final" />
+                                <InputError :message="form.errors.data_final" class="mt-2" />
                             </div>
                         </div>
                         <!-- Input de mensagem -->
                         <div class="mt-3 relative">
                             <label for="data_inicial" class="absolute top-[-10px] left-[10px] z-index-20 bg-white">Mensagem</label>
                             <textarea class="border border-gray-300 focus:border-yellow-500 focus:ring-yellow-500 w-full" v-model="form.mensagem" />
+                            <InputError :message="form.errors.mensagem" class="mt-2" />
                         </div>
                         <div class="flex justify-end mt-5">
                             <PrimaryButton type="submit">Ativar</PrimaryButton>

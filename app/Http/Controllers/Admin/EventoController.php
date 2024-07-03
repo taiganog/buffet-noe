@@ -67,7 +67,15 @@ class EventoController extends Controller {
             'dia' => 'required',
             'numero_convidados' => 'required',
             'observacao' => 'nullable',
-        ]);
+        ],
+        [
+            'local.required' => 'O local é obrigatório',
+            'tipo.required' => 'O tipo é obrigatório',
+            'duracao.required' => 'A duração é obrigatório',
+            'dia.required' => 'A data é obrigatório',
+            'numero_convidados.required' => 'O número de convidados é obrigatório',
+        ]
+    );
 
         $cliente = Cliente::where('cpf', $request->input('cpf_cliente'))->first()->id;
 
@@ -83,5 +91,47 @@ class EventoController extends Controller {
         $evento->save();
 
         return redirect()->route('admin.evento.unico', $evento->id);
+    }
+
+    public function editar(int $id): Response {
+        $evento = Evento::find($id);
+        $evento->cliente;
+        $evento->complemento;
+        $evento->valor;
+        $evento->formatarData('d/m/Y à\s H:i');
+
+        return Inertia::render('Admin/EventoEditar', [
+            'evento' => $evento,
+            'complementos' => Complementos::all(),
+            'tipo' => Tipos::all()
+        ]);
+    }
+
+    public function update(Request $request, int $id): RedirectResponse {
+        $request->validate([
+                'local' => 'required',
+                'duracao' => 'required',
+                'dia' => 'required',
+                'numero_convidados' => 'required',
+                'observacao' => 'nullable',
+            ],
+            [
+                'local.required' => 'O local é obrigatório',
+                'duracao.required' => 'A duração é obrigatório',
+                'dia.required' => 'A data é obrigatório',
+                'numero_convidados.required' => 'O número de convidados é obrigatório',
+            ]
+        );
+
+        $evento = Evento::find($id);
+        $evento->local = $request->input('local');
+        $evento->data = $request->input('dia');
+        $evento->duracao = $request->input('duracao');
+        $evento->numero_convidados = $request->input('numero_convidados');
+        $evento->observacao = $request->input('observacao');
+
+        $evento->save();
+
+        return back();
     }
 }

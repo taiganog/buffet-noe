@@ -27,7 +27,16 @@ class ClienteController extends Controller {
             'endereco' => 'required',
             'telefone' => 'required',
             'telefone_2' => 'required'
-        ]));
+        ],
+        [
+            'nome.required' => 'O nome é obrigatório',
+            'cpf.required' => 'O CPF é obrigatório',
+            'rg.required' => 'O RG é obrigatório',
+            'endereco.required' => 'O endereço é obrigatório',
+            'telefone.required' => 'O telefone é obrigatório',
+            'telefone_2.required' => 'O telefone secundário é obrigatório',
+        ]
+    ));
 
         return back();
     }

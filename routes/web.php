@@ -5,14 +5,17 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// Rotas Administrativas
 use App\Http\Controllers\Admin\ClienteController;
 use App\Http\Controllers\Admin\EventoController;
 use App\Http\Controllers\Admin\ComplementoController;
-use App\Http\Controllers\ValorController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FuncionarioController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\PDFController;
+
+// Rotas Públicas
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -22,14 +25,6 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('welcome');
-
-// Rotas de teste para Postman
-Route::get('/cliente', [ClienteController::class, 'index']);
-Route::get('/complemento', [ComplementoController::class, 'index']);
-Route::get('/valor', [ValorController::class, 'index']);
-Route::post('/valor', [ValorController::class, 'create']);
-Route::post('/evento', [EventoController::class, 'create']);
-Route::post('/feedback', [FeedbackController::class, 'create']);
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     // Rotas de perfil
@@ -46,10 +41,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/evento/{id}', [EventoController::class, 'index'])->name('admin.evento.unico');
     Route::get('/evento/{id}/contrato', [PDFController::class, 'index'])->name('admin.evento.contrato');
     Route::get('/evento/cadastro/novo', [EventoController::class, 'cadastro'])->name('admin.evento.cadastro');
+    Route::post('/evento', [EventoController::class, 'create'])->name('admin.evento.create');
+    Route::get('/evento/{id}/editar', [EventoController::class, 'editar'])->name('admin.evento.editar');
+    Route::put('/evento/{id}/editar', [EventoController::class, 'update'])->name('admin.evento.update');
 
     //  - Cliente
     Route::post('/cliente', [ClienteController::class, 'create'])->name('admin.cliente.create');
-    Route::post('/evento', [EventoController::class, 'create'])->name('admin.evento.create');
 
     //  - Complementos
     Route::post('/complemento', [ComplementoController::class, 'create'])->name('admin.complemento.create');

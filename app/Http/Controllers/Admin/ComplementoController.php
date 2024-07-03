@@ -70,7 +70,12 @@ class ComplementoController extends Controller {
             'entrada' => 'required',
             'cardapio' => 'required',
             'evento_id' => 'required',
-        ]);
+        ],
+        [
+            'entrada.required' => 'O campo entrada é obrigatório',
+            'cardapio.required' => 'O campo cardapio é obrigatório',
+        ]
+    );
 
         Complemento::create([
             'cascata' => $request->input('cascata'),

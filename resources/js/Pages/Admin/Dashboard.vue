@@ -1,11 +1,13 @@
 <script>
 import LayoutAdministrativo from '@/Layouts/LayoutAdministrativo.vue';
+import { Link } from '@inertiajs/vue3';
 
 export default {
     props: ['numeroEventosTotal', 'eventos', 'valorDoMes', 'valorRecebido', 'tipo'],
 
     components: {
-        LayoutAdministrativo
+        LayoutAdministrativo,
+        Link
     },
 
     methods: {
@@ -27,7 +29,7 @@ export default {
 
                 <div class="p-5 text-md">
                     <div v-for="evento in eventos">
-                        <a :href="route('admin.evento.unico', evento.id)">
+                        <Link :href="route('admin.evento.unico', evento.id)">
                             <div class="flex justify-between hover:cursor-pointer hover:bg-gray-200 transition duration-300 p-1 rounded">
                                 <div>
                                     <span><b>{{ tipo[evento.tipo] }}</b> - </span>
@@ -35,7 +37,7 @@ export default {
                                 </div>
                                 <span>{{ evento.data }}</span>
                             </div>
-                        </a>
+                        </Link>
                         <hr class="my-3" />
                     </div>
                 </div>
@@ -72,7 +74,7 @@ export default {
 
         <!-- Calendário -->
         <div class="px-40 mt-8">
-            <div class="shadow-xl px-5 min-h-[550px] bg-white items-center">
+            <div class="shadow-xl px-5 min-h-[500px] bg-white items-center">
         </div>
 
         </div>
