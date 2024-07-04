@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 use Carbon\Carbon;
 
@@ -46,5 +47,9 @@ class Evento extends Model {
 
     public function valor(): HasOne {
         return $this->hasOne(Valor::class);
+    }
+
+    public function servicos(): HasMany {
+        return $this->hasMany(ServicoEvento::class);
     }
 }

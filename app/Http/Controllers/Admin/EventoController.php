@@ -11,7 +11,7 @@ use Inertia\Response;
 use App\Http\Controllers\Controller;
 use App\Models\Evento;
 use App\Models\Cliente;
-
+use App\Models\Servico;
 use App\Enums\Complementos;
 use App\Enums\Tipos;
 
@@ -37,10 +37,11 @@ class EventoController extends Controller {
 
             return Inertia::render('Admin/EventoUnico', [
                 'evento' => $evento,
-                'complementos' => Complementos::all(),
+                'servicos' => Servico::all(),
                 'tipo' => Tipos::all()
             ]);
         }
+        /******* amo o matheus <3 *********/
 
         // Sem paramêtros ou se rota não existe redirecionar a geral
         $eventos = Evento::orderBy('data', 'desc')->get();
