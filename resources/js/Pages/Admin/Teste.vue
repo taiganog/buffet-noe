@@ -19,13 +19,10 @@ export default {
     methods: {
         incluirEvento(servico) {
             let index = this.servicosEscolhidos.idServicos.indexOf(servico)
-
             if(index > -1) {
                 this.servicosEscolhidos.idServicos.splice(index, 1)
-
                 return
             }
-
             this.servicosEscolhidos.idServicos.push(servico)
         }
     },

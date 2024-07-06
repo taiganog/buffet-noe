@@ -5,8 +5,12 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import ConditionalInput from '@/Components/ConditionalInput.vue';
 import Modal from '@/Components/Modal.vue';
 import InputError from '@/Components/InputError.vue';
+import TextInput from '@/Components/TextInput.vue';
+import Swal from 'sweetalert2';
 
 import { router } from '@inertiajs/vue3';
+import { defineAsyncComponent } from 'vue'
+
 
 export default {
     props: ['evento', 'servicos', 'tipo'],
@@ -18,6 +22,7 @@ export default {
         ConditionalInput,
         Modal,
         InputError,
+        TextInput,
     },
 
     data() {
@@ -25,24 +30,67 @@ export default {
             complementoModal: false,
             editarComplementoModal: false,
 
-            // Formulário de complemento e valores
-            formComplemento: this.$inertia.form({
+            // Variável que controla o status do botão de Adicionar/Remover serviços
+            // [0, 0, 0, ...]
+            statusBotaoServico: Array(this.servicos.length).fill(0),
 
-            }),
+            // Variável que observa os valores de cada serviço
+            // [100, 200, 150, ...]
+            valores: Array(this.servicos.length).map((element, index) => this.servicos[index].valor),
+
+            // Serviços selecionados
+            // [{id: servico.id, quantidade: n, valor: servico.valor * n}]
+            servicosEscolhidos: [],
         }
     },
 
     methods: {
-        enviarComplemento() {
-            this.formComplemento.post(route('admin.complemento.create', this.evento.id), {
-                onSuccess: () => this.complementoModal = false
-            })
-        },
-
         enviarEditarComplemento() {
             this.formEditarComplemento.patch(route('admin.complemento.update', this.evento.complemento.id), {
                 onSuccess: () => this.editarComplementoModal = false
             })
+        },
+
+        async adicionarServico(servico) {
+            // Verificar se o serviço foi adicionado
+            let id = -1
+            for(let i = 0; i < this.servicosEscolhidos.length; i++) {
+                if (this.servicosEscolhidos[i].id == servico.id) {
+                    id = i
+                    break
+                }
+            }
+            // Alterar situação do botão específico desse serviço
+            this.statusBotaoServico[servico.id - 1] = 1
+            // Remover o serviço se já tiver sido adicionado
+            if(id > -1) {
+                this.servicosEscolhidos.splice(id, 1)
+                this.statusBotaoServico[servico.id - 1] = 0
+
+                return
+            }
+            // Incluir serviço se não existir no array
+            // Alert de solicitar quantidade
+            const { value: quantidade } = await Swal.fire({
+                title: "Informe a quantidade do serviço",
+                input: "number",
+                inputLabel: "Quantidade",
+                showCancelButton: false,
+                allowOutsideClick: false,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return "You need to write something!";
+                    }
+                }
+            })
+            // Criar objeto de serviço escolhido
+            let data = {
+                id: servico.id,
+                quantidade: quantidade,
+                valor: this.valores[servico.id - 1] * quantidade
+            }
+            // Incluir objeto em array
+            this.servicosEscolhidos.push(data)
         }
     },
 
@@ -50,6 +98,8 @@ export default {
         contrato() {
             return this.evento.complemento ? 'Gerar contrato' : 'Insira serviços antes de gerar o contrato'
         },
+
+
     }
 }
 </script>
@@ -122,13 +172,24 @@ export default {
                 <h3 class="font-bold text-2xl p-4">Cadastrar Serviços</h3>
                 <hr class="border-yellow-400 w-10/12 m-auto" />
             </div>
-            <form @submit.prevent="enviarComplemento">
-                <!-- Serviços -->
+            <!-- Serviços -->
+            <p>{{ servicosEscolhidos }}</p>
+            <form @submit.prevent="enviarComplemento" class="p-5">
+                <!-- Títulos -->
+                <div class="grid grid-cols-3 gap-2 font-bold text-xl p-2 text-center mb-4">
+                    <p></p>
+                    <p>Serviço</p>
+                    <p>Valor (und)</p>
+                </div>
                 <div v-for="servico in servicos">
-                    <div class="grid grid-cols-3 gap-2 font-bold p-2">
-                        <PrimaryButton>Adicionar</PrimaryButton>
+                    <div class="grid grid-cols-3 gap-2 font-bold p-2 text-center">
+                        <div class="">
+                            <ConditionalButton :disabled="false" :class="statusBotaoServico[servico.id - 1] ? 'bg-red-500' : ''" @click="adicionarServico(servico)">
+                                {{ statusBotaoServico[servico.id - 1] ? 'Remover' : 'Adicionar' }}
+                            </ConditionalButton>
+                        </div>
                         <p>{{ servico.nome }}</p>
-                        <p>R$ {{ servico.valor }},00</p>
+                        <TextInput type="number" v-model="valores[servico.id - 1]" :placeholder="servico.valor + ',00'" />
                     </div>
                 </div>
                 <!-- Cadastrar -->
