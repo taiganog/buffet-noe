@@ -36,11 +36,14 @@ export default {
 
             // Variável que observa os valores de cada serviço
             // [100, 200, 150, ...]
-            valores: Array(this.servicos.length).map((element, index) => this.servicos[index].valor),
+            valores: Array(this.servicos.length).fill(0),
 
             // Serviços selecionados
             // [{id: servico.id, quantidade: n, valor: servico.valor * n}]
-            servicosEscolhidos: [],
+            form: this.$inertia.form({
+                servicosEscolhidos: [],
+                evento_id: this.evento.id
+            }),
         }
     },
 
@@ -51,17 +54,21 @@ export default {
             })
         },
 
+        enviarServicos() {
+            this.form.post(route('admin.complemento.create'), {
+                onSuccess: () => this.complementoModal = false
+            })
+        },
+
         async adicionarServico(servico) {
             // Verificar se o serviço foi adicionado
             let id = -1
-            for(let i = 0; i < this.servicosEscolhidos.length; i++) {
-                if (this.servicosEscolhidos[i].id == servico.id) {
+            for(let i = 0; i < this.form.servicosEscolhidos.length; i++) {
+                if (this.form.servicosEscolhidos[i].id == servico.id) {
                     id = i
                     break
                 }
             }
-            // Alterar situação do botão específico desse serviço
-            this.statusBotaoServico[servico.id - 1] = 1
             // Remover o serviço se já tiver sido adicionado
             if(id > -1) {
                 this.servicosEscolhidos.splice(id, 1)
@@ -69,6 +76,20 @@ export default {
 
                 return
             }
+
+            // Verificar se o valor foi informado
+            if(this.valores[servico.id - 1] < 1) {
+                Swal.fire({
+                    title: 'Informe o valor antes de adicionar o serviço',
+                    icon: 'warning',
+                })
+
+                return
+            }
+
+            // Alterar situação do botão específico desse serviço
+            this.statusBotaoServico[servico.id - 1] = 1
+
             // Incluir serviço se não existir no array
             // Alert de solicitar quantidade
             const { value: quantidade } = await Swal.fire({
@@ -79,18 +100,18 @@ export default {
                 allowOutsideClick: false,
                 inputValidator: (value) => {
                     if (!value) {
-                        return "You need to write something!";
+                        return "É obrigatório informar a quantidade!";
                     }
                 }
             })
             // Criar objeto de serviço escolhido
-            let data = {
+            let servicoEscolhido = {
                 id: servico.id,
                 quantidade: quantidade,
                 valor: this.valores[servico.id - 1] * quantidade
             }
             // Incluir objeto em array
-            this.servicosEscolhidos.push(data)
+            this.form.servicosEscolhidos.push(servicoEscolhido)
         }
     },
 
@@ -100,6 +121,12 @@ export default {
         },
 
 
+    },
+
+    mounted() {
+        this.servicos.forEach(servico => {
+            this.valores[servico.id - 1] = servico.valor
+        })
     }
 }
 </script>
@@ -110,7 +137,7 @@ export default {
             <div class="flex justify-between text-center font-bold text-xl">
                 <h2>{{ tipo[evento.tipo] }} - {{ evento.cliente.nome }}</h2>
                 <div class="flex gap-3">
-                    <div v-if="evento.complemento">
+                    <div v-if="evento.servicos">
                         <PrimaryButton @click="$inertia.get(route('admin.evento.editar', evento.id))">Editar</PrimaryButton>
                     </div>
                     <ConditionalButton :title="contrato" :disabled="!evento.complemento" @click="$inertia.get(route('admin.evento.contrato', evento.id))">Gerar contrato</ConditionalButton>
@@ -174,7 +201,7 @@ export default {
             </div>
             <!-- Serviços -->
             <p>{{ servicosEscolhidos }}</p>
-            <form @submit.prevent="enviarComplemento" class="p-5">
+            <form @submit.prevent="enviarServicos" class="p-5">
                 <!-- Títulos -->
                 <div class="grid grid-cols-3 gap-2 font-bold text-xl p-2 text-center mb-4">
                     <p></p>

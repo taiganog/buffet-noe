@@ -15,6 +15,6 @@ class ServicoEvento extends Model
         'servico_id',
         'evento_id',
         'quantidade',
-        'total',
+        'valor',
     ];
 }

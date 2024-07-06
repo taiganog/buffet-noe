@@ -31,7 +31,7 @@ class EventoController extends Controller {
         // Checar se evento existe antes de entregar a rota de detalhes
         if($evento) {
             $evento->cliente;
-            $evento->complemento;
+            $evento->servicos;
             $evento->valor;
             $evento->formatarData('d/m/Y à\s H:i');
 
@@ -76,8 +76,7 @@ class EventoController extends Controller {
             'dia.required' => 'A data é obrigatório',
             'numero_convidados.required' => 'O número de convidados é obrigatório',
         ]
-    );
-
+        );
         $cliente = Cliente::where('cpf', $request->input('cpf_cliente'))->first()->id;
 
         $evento = new Evento;
