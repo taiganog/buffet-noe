@@ -2,7 +2,7 @@
 withDefaults(
     defineProps<{
         type?: 'button' | 'submit' | 'reset';
-        disabled?: boolean
+        disabled?: boolean;
     }>(),
     {
         disabled: false,

@@ -12,7 +12,6 @@ use Carbon\Carbon;
 
 use App\Models\Equipe;
 use App\Models\Cliente;
-use App\Models\Complemento;
 use App\Models\Valor;
 
 class Evento extends Model {
@@ -40,11 +39,11 @@ class Evento extends Model {
         return $this->belongsTo(Cliente::class);
     }
 
-    public function complemento(): HasOne {
-        return $this->hasOne(Complemento::class);
-    }
-
     public function valor(): HasOne {
         return $this->hasOne(Valor::class);
+    }
+
+    public function servicos(): HasMany {
+        return $this->hasMany(ServicoEvento::class);
     }
 }

@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FuncionarioController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\PDFController;
+use App\Http\Controllers\Admin\ServicoController;
+use App\Http\Controllers\Admin\Teste;
 
 // Rotas Públicas
 
@@ -60,6 +62,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('admin.feedback');
     Route::post('/feedback', [FeedbackController::class, 'create'])->name('admin.feedback.create');
     Route::delete('/feedback', [FeedbackController::class, 'destroy'])->name('admin.feedback.destroy');
+
+    //  - Servicos
+    Route::get('/servico', [ServicoController::class, 'index'])->name('admin.servico');
+    Route::post('/servico', [ServicoController::class, 'create'])->name('admin.servico.create');
+
+    //  - Teste
+    Route::get('/teste', [Teste::class, 'index'])->name('admin.teste');
 });
 
 require __DIR__.'/auth.php';

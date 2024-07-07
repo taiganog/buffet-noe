@@ -35,7 +35,10 @@ class DashboardController extends Controller {
         $eventos = $this->pegarEventosDoMes();
 
         foreach ($eventos as $evento) {
-            $valorDoMes += $evento->valor->total;
+            // Checar se evento->valor não é null
+            if($evento->valor) {
+                $valorDoMes += $evento->valor->total;
+            }
         }
 
         return $valorDoMes;

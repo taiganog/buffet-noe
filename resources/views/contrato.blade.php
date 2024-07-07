@@ -1,5 +1,12 @@
 <!DOCTYPE html>
-<!-- Props: data(datetime), evento(arr, com complementos, cliente e valor), complementos(key => value), desconto(int) -->
+<!--
+    Props:
+    data(datetime),
+    evento(arr, com servicos, cliente e valor),
+    servicos(nome, valor),
+    desconto(int)
+    total(int)
+-->
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -29,9 +36,10 @@
                     <p><b>Local do evento:</b> {{ $evento->local }}</p>
                 </div>
                 <!-- Cardápio -->
-                <div class="mt-1">
+                <div class="mt-1"> {{--
                     <p><b>Entradas:</b> {{ $evento->complemento->entradas }}</p>
                     <p><b>Cardápio:</b> {{ $evento->complemento->cardapio }}</p>
+                                    --}}
                 </div>
                 <!-- Tabela -->
                 <div class="mt-3">
@@ -48,19 +56,17 @@
                             </thead>
                             <tbody>
                                 <!-- Tabela de itens -->
-                                @foreach ($complementos as $chave => $valor)
-                                    @if($evento->complemento->$chave > 0)
-                                        <tr class="text-center">
-                                            <!-- Nome do complemento -->
-                                            <td class="text-left border border-black">{{ $valor }}</td>
-                                            <!-- Quantidade -->
-                                            <td class="border border-black">{{ $evento->complemento->$chave }}</td>
-                                            <!-- Valor unitário -->
-                                            <td class="border border-black">R${{ round($evento->valor->$chave / $evento->complemento->$chave) }},00</td>
-                                            <!-- Valor total -->
-                                            <td class="border border-black px-10">R${{ $evento->valor->$chave }},00</td>
-                                        </tr>
-                                    @endif
+                                @foreach ($evento->servicos as $chave => $valor)
+                                    <tr class="text-center">
+                                        <!-- Nome do complemento -->
+                                        <td class="text-left border border-black">{{ $servicos[$chave]->nome }}</td>
+                                        <!-- Quantidade -->
+                                        <td class="border border-black">{{ $valor->quantidade }}</td>
+                                        <!-- Valor unitário -->
+                                        <td class="border border-black">R${{ $valor->valor / $valor->quantidade }},00</td>
+                                        <!-- Valor total -->
+                                        <td class="border border-black px-10">R${{ $valor->valor }},00</td>
+                                    </tr>
                                 @endforeach
                                 <!-- Informação de descontos -->
                                 <tr class="text-center">
@@ -74,7 +80,7 @@
                                     <td></td>
                                     <td></td>
                                     <td class="font-bold border border-black">Total: </td>
-                                    <td class="font-bold border border-black">R${{ $evento->valor->total - $desconto }},00</td></td>
+                                    <td class="font-bold border border-black">R${{ $total - $desconto }},00</td></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -96,7 +102,7 @@
 
                 <div class="flex justify-between pt-2">
                     <p><b>Dados Bancários:</b> Banco Itaú, agência 4414, Conta Poupança 27786-5/500 ou Pix 61991172712.</p>
-                    <p><b>Empresa Contratada:</b> Buffet Arca de Noé</p>
+                    <p><b>Empresa Contratada:</b> 55.591.904 MATEUS NOGUEIRA DA CRUZ</p>
                 </div>
             </div>
             <div class="px-5">
@@ -109,10 +115,10 @@
                 <hr class="w-1/2 m-auto border-black" />
                 <hr class="w-1/2 m-auto border-black" />
 
-                <span>Noeberson Silva da Cruz</span>
+                <span>55.591.904 MATEUS NOGUEIRA DA CRUZ</span>
                 <span>{{ $evento->cliente->nome }}</span>
 
-                <span>CNPJ: 00.000.000/0000-00</span>
+                <span>CNPJ: 55.591.904/0001-20</span>
                 <span>CPF: {{ $evento->cliente->cpf }}</span>
             </div>
         </div>

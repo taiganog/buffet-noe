@@ -11,7 +11,7 @@ use Inertia\Response;
 use App\Http\Controllers\Controller;
 use App\Models\Evento;
 use App\Models\Cliente;
-
+use App\Models\Servico;
 use App\Enums\Complementos;
 use App\Enums\Tipos;
 
@@ -20,8 +20,6 @@ class EventoController extends Controller {
         foreach ($eventos as $evento) {
             $evento->formatarData();
             $evento->cliente;
-            $evento->complemento;
-            $evento->valor;
         }
     }
 
@@ -31,16 +29,17 @@ class EventoController extends Controller {
         // Checar se evento existe antes de entregar a rota de detalhes
         if($evento) {
             $evento->cliente;
-            $evento->complemento;
+            $evento->servicos;
             $evento->valor;
             $evento->formatarData('d/m/Y à\s H:i');
 
             return Inertia::render('Admin/EventoUnico', [
                 'evento' => $evento,
-                'complementos' => Complementos::all(),
+                'servicos' => Servico::all(),
                 'tipo' => Tipos::all()
             ]);
         }
+        /******* amo o matheus <3 *********/
 
         // Sem paramêtros ou se rota não existe redirecionar a geral
         $eventos = Evento::orderBy('data', 'desc')->get();
@@ -75,8 +74,7 @@ class EventoController extends Controller {
             'dia.required' => 'A data é obrigatório',
             'numero_convidados.required' => 'O número de convidados é obrigatório',
         ]
-    );
-
+        );
         $cliente = Cliente::where('cpf', $request->input('cpf_cliente'))->first()->id;
 
         $evento = new Evento;
