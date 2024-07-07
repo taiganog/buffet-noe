@@ -7,13 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 use Carbon\Carbon;
 
 use App\Models\Equipe;
 use App\Models\Cliente;
-use App\Models\Complemento;
 use App\Models\Valor;
 
 class Evento extends Model {
@@ -39,10 +37,6 @@ class Evento extends Model {
 
     public function cliente(): BelongsTo {
         return $this->belongsTo(Cliente::class);
-    }
-
-    public function complemento(): HasOne {
-        return $this->hasOne(Complemento::class);
     }
 
     public function valor(): HasOne {

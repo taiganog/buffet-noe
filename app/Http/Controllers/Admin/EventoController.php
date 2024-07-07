@@ -20,8 +20,6 @@ class EventoController extends Controller {
         foreach ($eventos as $evento) {
             $evento->formatarData();
             $evento->cliente;
-            $evento->complemento;
-            $evento->valor;
         }
     }
 
