@@ -48,12 +48,6 @@ export default {
     },
 
     methods: {
-        enviarEditarComplemento() {
-            this.formEditarComplemento.patch(route('admin.complemento.update', this.evento.complemento.id), {
-                onSuccess: () => this.editarComplementoModal = false
-            })
-        },
-
         enviarServicos() {
             this.form.post(route('admin.complemento.create'), {
                 onSuccess: () => this.complementoModal = false
@@ -71,7 +65,7 @@ export default {
             }
             // Remover o serviço se já tiver sido adicionado
             if(id > -1) {
-                this.servicosEscolhidos.splice(id, 1)
+                this.form.servicosEscolhidos.splice(id, 1)
                 this.statusBotaoServico[servico.id - 1] = 0
 
                 return
@@ -87,8 +81,6 @@ export default {
                 return
             }
 
-            // Alterar situação do botão específico desse serviço
-            this.statusBotaoServico[servico.id - 1] = 1
 
             // Incluir serviço se não existir no array
             // Alert de solicitar quantidade
@@ -104,6 +96,10 @@ export default {
                     }
                 }
             })
+
+            // Alterar situação do botão específico desse serviço
+            this.statusBotaoServico[servico.id - 1] = 1
+
             // Criar objeto de serviço escolhido
             let servicoEscolhido = {
                 id: servico.id,
@@ -124,6 +120,7 @@ export default {
     },
 
     mounted() {
+        // Inicializar variável dos serviços
         this.servicos.forEach(servico => {
             this.valores[servico.id - 1] = servico.valor
         })
@@ -140,7 +137,7 @@ export default {
                     <div v-if="evento.servicos">
                         <PrimaryButton @click="$inertia.get(route('admin.evento.editar', evento.id))">Editar</PrimaryButton>
                     </div>
-                    <ConditionalButton :title="contrato" :disabled="!evento.complemento" @click="$inertia.get(route('admin.evento.contrato', evento.id))">Gerar contrato</ConditionalButton>
+                    <ConditionalButton :title="contrato" :disabled="!evento.servicos.length" @click="$inertia.get(route('admin.evento.contrato', evento.id))">Gerar contrato</ConditionalButton>
                 </div>
             </div>
             <hr class="my-2 border-yellow-400"/>
@@ -160,20 +157,20 @@ export default {
                         <span>Serviços</span>
                         <hr class="w-3/12 m-auto border-yellow-400" />
                     </div>
-                    <!-- Mostrar complementos se evento já possuir serviços cadastrados -->
-                    <div v-if="evento.complemento">
+                    <!-- Mostrar serviços se evento já possuir serviços cadastrados -->
+                    <div v-if="evento.servicos.length">
                         <div class="grid grid-cols-3 gap-2 font-bold p-2">
                             <p>Serviço</p>
                             <p>Quantidade</p>
                             <p>Valor</p>
                         </div>
-                        <div v-for="(chave, valor) in complementos" class="grid grid-cols-3 gap-2">
-                            <p v-if="evento.complemento[valor] !== null">{{ chave }}</p>
-                            <p v-if="evento.complemento[valor] !== null">{{ evento.complemento[valor] }}</p>
-                            <p v-if="evento.complemento[valor] !== null">R$ {{ evento.valor[valor] }},00</p>
+                        <div v-for="(chave, valor) in evento.servicos" class="grid grid-cols-3 gap-2">
+                            <p v-if="evento.servicos[valor] !== null">{{ servicos[valor].nome }}</p>
+                            <p v-if="evento.servicos[valor] !== null">{{ chave.quantidade }}</p>
+                            <p v-if="evento.servicos[valor] !== null">R$ {{ chave.valor }},00</p>
                         </div>
                     </div>
-                    <!-- Mostrar opção de cadastrar complementos se evento não já possuir -->
+                    <!-- Mostrar opção de cadastrar serviços se evento não já possuir -->
                     <div v-else>
                         <p class="p-2">Esse evento ainda não possui serviços cadastrados :(</p>
                         <PrimaryButton @click="complementoModal = true">Cadastrar</PrimaryButton>
@@ -211,7 +208,7 @@ export default {
                 <div v-for="servico in servicos">
                     <div class="grid grid-cols-3 gap-2 font-bold p-2 text-center">
                         <div class="">
-                            <ConditionalButton :disabled="false" :class="statusBotaoServico[servico.id - 1] ? 'bg-red-500' : ''" @click="adicionarServico(servico)">
+                            <ConditionalButton :disabled="false" :class="statusBotaoServico[servico.id - 1] ? 'bg-gray-400' : ''" @click="adicionarServico(servico)">
                                 {{ statusBotaoServico[servico.id - 1] ? 'Remover' : 'Adicionar' }}
                             </ConditionalButton>
                         </div>
