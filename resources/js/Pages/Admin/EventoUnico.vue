@@ -159,14 +159,17 @@ export default {
                     </div>
                     <!-- Mostrar serviços se evento já possuir serviços cadastrados -->
                     <div v-if="evento.servicos.length">
-                        <div class="grid grid-cols-3 gap-2 font-bold p-2">
+                        <div class="grid grid-cols-4 gap-2 font-bold p-2">
                             <p>Serviço</p>
                             <p>Quantidade</p>
-                            <p>Valor</p>
+                            <p>Valor Unitário</p>
+                            <p>Total</p>
                         </div>
-                        <div v-for="(chave, valor) in evento.servicos" class="grid grid-cols-3 gap-2">
-                            <p v-if="evento.servicos[valor] !== null">{{ servicos[valor].nome }}</p>
+                        <div></div>
+                        <div v-for="(chave, valor) in evento.servicos" class="grid grid-cols-4 gap-2">
+                            <p v-if="evento.servicos[valor] !== null">{{ servicos[chave.servico_id - 1].nome }}</p>
                             <p v-if="evento.servicos[valor] !== null">{{ chave.quantidade }}</p>
+                            <p v-if="evento.servicos[valor] !== null">R$ {{ chave.valor / chave.quantidade }},00</p>
                             <p v-if="evento.servicos[valor] !== null">R$ {{ chave.valor }},00</p>
                         </div>
                     </div>

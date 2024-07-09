@@ -9,9 +9,34 @@ use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 
 use App\Models\Evento;
+use App\Models\Promocao;
 use App\Enums\Tipos;
 
 class DashboardController extends Controller {
+    // Verificar se há promoção ativa
+    private function verificarPromocaoAtiva(): string {
+        $programada = 0;
+
+        // Pegar todas as promoções
+        $promocoes = Promocao::all();
+        // Checar se existem promoções
+        if($promocoes->isNotEmpty()) {
+            foreach($promocoes as $promocao) {
+                // Checar se há uma promoção ativa no dia de hoje
+                if(Carbon::now()->between($promocao->data_inicial, $promocao->data_final)) {
+                    // Se houver, retorne 'Ativa'
+                    return 'Ativa';
+                // Checar se há uma promoção por vir ou não
+                } else if($promocao->data_inicial > Carbon::now()) {
+                    $programada = $promocao->id;
+                }
+            }
+        }
+
+        // Se houver promoção programada retornar a data
+        return $programada ? 'Programada para ' . Carbon::parse($promocoes->find($programada)->data_inicial)->format('d/m/Y') : 'Não';
+    }
+
     // Retorna os clientes dos eventos no objeto evento
     public function pegarClientes($eventos): void {
         foreach($eventos as $evento) {
@@ -35,9 +60,8 @@ class DashboardController extends Controller {
         $eventos = $this->pegarEventosDoMes();
 
         foreach ($eventos as $evento) {
-            // Checar se evento->valor não é null
-            if($evento->valor) {
-                $valorDoMes += $evento->valor->total;
+            foreach($evento->servicos as $servico) {
+                $valorDoMes += $servico->valor;
             }
         }
 
@@ -69,8 +93,10 @@ class DashboardController extends Controller {
             Carbon::now()->format('Y-m-d'),
         ])->get();
 
-        foreach($eventos as $evento) {
-            $valorRecebido += $evento->valor->total;
+        foreach ($eventos as $evento) {
+            foreach($evento->servicos as $servico) {
+                $valorRecebido += $servico->valor;
+            }
         }
 
         return $valorRecebido;
@@ -90,7 +116,8 @@ class DashboardController extends Controller {
             'numeroEventosTotal' => $numeroEventosTotal,
             'eventos' => $eventos,
             'valorRecebido' => $valorRecebido,
-            'tipo' => Tipos::all()
+            'tipo' => Tipos::all(),
+            'promocao' => $this->verificarPromocaoAtiva()
         ]);
     }
 }

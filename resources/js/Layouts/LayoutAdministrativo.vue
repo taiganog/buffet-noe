@@ -57,5 +57,13 @@ export default {
         <div class="col-span-10 bg-gray-200">
             <slot />
         </div>
+
+        <!-- Footer -->
+        <div class="fixed bg-gray-400 h-16 bottom-0 right-0 w-10/12 max-h-[25px]">
+            <div class="flex justify-between mx-5 text-center">
+                <p>{{ new Date().toDateString() }}</p>
+                <p>Jul - 2024 / V 1.0 /</p>
+            </div>
+        </div>
     </div>
 </template>

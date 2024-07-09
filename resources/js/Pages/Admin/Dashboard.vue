@@ -3,7 +3,7 @@ import LayoutAdministrativo from '@/Layouts/LayoutAdministrativo.vue';
 import { Link } from '@inertiajs/vue3';
 
 export default {
-    props: ['numeroEventosTotal', 'eventos', 'valorDoMes', 'valorRecebido', 'tipo'],
+    props: ['numeroEventosTotal', 'eventos', 'valorDoMes', 'valorRecebido', 'tipo', 'promocao'],
 
     components: {
         LayoutAdministrativo,
@@ -12,6 +12,18 @@ export default {
 
     methods: {
 
+    },
+
+    computed: {
+        classePromocao() {
+            if(this.promocao === 'Ativa') {
+                return 'text-green-500';
+            } else if(this.promocao === 'Não') {
+                return 'text-red-500';
+            } else {
+                return 'text-yellow-500';
+            }
+        }
     }
 }
 </script>
@@ -19,10 +31,10 @@ export default {
 <template>
     <LayoutAdministrativo>
         <!-- Seção topo do dashboard -->
-        <div class="grid grid-cols-3 gap-5 px-40 pt-24">
+        <div class="grid grid-cols-6 gap-5 px-40 pt-24">
 
             <!-- Listagem dos próximos eventos -->
-            <div class="min-h-[250px] shadow-xl bg-white">
+            <div class="min-h-[250px] shadow-xl bg-white col-span-3">
                 <div class="font-black text-[#ffa32c] text-xl p-4 pb-2">
                     <span>Próximos eventos</span>
                 </div>
@@ -44,13 +56,18 @@ export default {
             </div>
 
             <!-- Listagem de eventos totais do mês -->
-            <div class="shadow-xl bg-white">
-                <div class="font-black text-[#ffa32c] text-xl p-4 pb-2">
-                    <span>Eventos totais do mês</span>
+            <div class="shadow-xl bg-white col-span-2">
+                <div class="font-black text-[#ffa32c] text-xl p-4 pb-1">
+                    <span>Eventos totais do mês:</span>
                 </div>
-
-                <div class="p-5 text-2xl font-bold">
+                <div class="p-5 pb-2 text-2xl font-bold">
                     <span>{{ numeroEventosTotal }}</span>
+                </div>
+                <div class="font-black text-[#ffa32c] text-xl p-4 pb-1">
+                    <span>Promoção ativa: </span>
+                </div>
+                <div class="p-5 text-2xl font-bold">
+                    <span :class="classePromocao">{{ promocao }}</span>
                 </div>
             </div>
 
@@ -73,10 +90,9 @@ export default {
         </div>
 
         <!-- Calendário -->
-        <div class="px-40 mt-8">
+        <div class="px-40 my-8">
             <div class="shadow-xl px-5 min-h-[500px] bg-white items-center">
-        </div>
-
+            </div>
         </div>
     </LayoutAdministrativo>
 </template>

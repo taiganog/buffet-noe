@@ -94,13 +94,11 @@ class EventoController extends Controller {
     public function editar(int $id): Response {
         $evento = Evento::find($id);
         $evento->cliente;
-        $evento->complemento;
-        $evento->valor;
-        $evento->formatarData('d/m/Y à\s H:i');
+        $evento->servicos;
 
         return Inertia::render('Admin/EventoEditar', [
             'evento' => $evento,
-            'complementos' => Complementos::all(),
+            'servicos' => Servico::all(),
             'tipo' => Tipos::all()
         ]);
     }

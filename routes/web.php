@@ -52,6 +52,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
     //  - Complementos
     Route::post('/complemento', [ComplementoController::class, 'create'])->name('admin.complemento.create');
+    Route::put('/complemento', [ComplementoController::class, 'update'])->name('admin.complemento.update');
 
     //  - Funcionários
     Route::get('/funcionario', [FuncionarioController::class, 'index'])->name('admin.funcionario');
