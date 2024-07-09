@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Evento;
 use App\Models\Cliente;
 use App\Models\Servico;
+use App\Models\Funcionario;
 use App\Enums\Complementos;
 use App\Enums\Tipos;
 
@@ -30,13 +31,14 @@ class EventoController extends Controller {
         if($evento) {
             $evento->cliente;
             $evento->servicos;
-            $evento->valor;
+            $evento->equipes;
             $evento->formatarData('d/m/Y à\s H:i');
 
             return Inertia::render('Admin/EventoUnico', [
                 'evento' => $evento,
                 'servicos' => Servico::all(),
-                'tipo' => Tipos::all()
+                'tipo' => Tipos::all(),
+                'funcionarios' => Funcionario::withTrashed()->get()
             ]);
         }
         /******* amo o matheus <3 *********/

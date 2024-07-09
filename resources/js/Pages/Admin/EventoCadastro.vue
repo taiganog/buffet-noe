@@ -142,7 +142,7 @@ export default {
 
                     <div class="flex flex-row-reverse gap-5">
                         <PrimaryButton type="submit">Cadastrar</PrimaryButton>
-                        <PrimaryButton @click="clienteModal = true">Selecionar Cliente</PrimaryButton>
+                        <PrimaryButton type="button" @click="clienteModal = true">Selecionar Cliente</PrimaryButton>
                     </div>
                 </form>
                 <!-- Formulário de evento -->

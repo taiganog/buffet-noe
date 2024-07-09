@@ -31,7 +31,7 @@ class Evento extends Model {
         $this->data = Carbon::parse($this->data)->format($formato);
     }
 
-    public function equipe(): HasMany {
+    public function equipes(): HasMany {
         return $this->hasMany(Equipe::class);
     }
 

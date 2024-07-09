@@ -34,7 +34,6 @@ class PDFController extends Controller {
         $evento->formatarData('d/m/Y');
         $evento->cliente;
         $evento->servicos;
-        $evento->valor;
         $evento->tipo = Tipos::all()[$evento->tipo];
 
         $servicos = Servico::all();

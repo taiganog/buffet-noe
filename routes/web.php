@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\FuncionarioController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\PDFController;
 use App\Http\Controllers\Admin\ServicoController;
+use App\Http\Controllers\Admin\EquipeController;
 use App\Http\Controllers\Admin\Teste;
 
 // Rotas Públicas
@@ -58,6 +59,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/funcionario', [FuncionarioController::class, 'index'])->name('admin.funcionario');
     Route::post('/funcionario', [FuncionarioController::class, 'create'])->name('admin.funcionario.create');
     Route::delete('/funcionario/d/{id}', [FuncionarioController::class, 'destroy'])->name('admin.funcionario.destroy');
+
+    //  - Equipe
+    Route::post('/equipe', [EquipeController::class, 'create'])->name('admin.equipe.create');
+    Route::put('/equipe', [EquipeController::class, 'update'])->name('admin.equipe.update');
 
     //  - Feedback
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('admin.feedback');

@@ -12,21 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('equipe_eventos', function(Blueprint $table){
-            $table->id();
-
             $table->unsignedBigInteger('evento_id');
             $table->foreign('evento_id')->references('id')->on('eventos');
             $table->unsignedBigInteger('funcionario_id');
             $table->foreign('funcionario_id')->references('id')->on('funcionarios');
 
-            $table->enum('funcao', ['GARCOM',
-                                    'COZINHEIRO',
-                                    'AJUDANTE_COZINHA',
-                                    'PORTEIRO',
-                                    'MAITRE',
-                                    'MONTAGEM',
-                                    'FRITADOR',
-            ]);
+            $table->string('funcao');
         });
     }
 
