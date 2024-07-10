@@ -42,7 +42,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     //  - Eventos
     Route::get('/evento', [EventoController::class, 'index'])->name('admin.evento');
     Route::get('/evento/{id}', [EventoController::class, 'index'])->name('admin.evento.unico');
-    Route::get('/evento/{id}/contrato', [PDFController::class, 'index'])->name('admin.evento.contrato');
+    Route::get('/evento/{id}/contrato/{desconto?}', [PDFController::class, 'index'])->name('admin.evento.contrato');
     Route::get('/evento/cadastro/novo', [EventoController::class, 'cadastro'])->name('admin.evento.cadastro');
     Route::post('/evento', [EventoController::class, 'create'])->name('admin.evento.create');
     Route::get('/evento/{id}/editar', [EventoController::class, 'editar'])->name('admin.evento.editar');

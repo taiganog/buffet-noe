@@ -14,7 +14,7 @@ import { defineAsyncComponent } from 'vue'
 
 
 export default {
-    props: ['evento', 'servicos', 'tipo', 'funcionarios'],
+    props: ['evento', 'servicos', 'tipo', 'funcionarios', 'funcionariosAtivos'],
 
     components: {
         LayoutAdministrativo,
@@ -154,6 +154,23 @@ export default {
             }
             // Incluir objeto em array
             this.form.servicosEscolhidos.push(servicoEscolhido)
+        },
+
+        async pegarDesconto() {
+            const { value: desconto } = await Swal.fire({
+                title: "Defina o desconto",
+                input: "number",
+                inputLabel: "Desconto",
+                showCancelButton: false,
+                allowOutsideClick: false,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return "É obrigatório informar o desconto!";
+                    }
+                }
+            })
+
+            router.get(route('admin.evento.contrato'), [this.evento.id, desconto])
         }
     },
 
@@ -181,7 +198,7 @@ export default {
                     <div v-if="evento.servicos.length">
                         <PrimaryButton @click="$inertia.get(route('admin.evento.editar', evento.id))">Editar</PrimaryButton>
                     </div>
-                    <ConditionalButton :title="contrato" :disabled="!evento.servicos.length" @click="$inertia.get(route('admin.evento.contrato', evento.id))">Gerar contrato</ConditionalButton>
+                    <ConditionalButton :title="contrato" :disabled="!evento.servicos.length" @click="pegarDesconto">Gerar contrato</ConditionalButton>
                 </div>
             </div>
             <hr class="my-2 border-yellow-400"/>
@@ -302,7 +319,7 @@ export default {
                     <p>Selecione o funcionário e em seguida informe sua função</p>
                     <select class="w-5/12 border border-gray-300 focus:border-yellow-500 focus:ring-yellow-500" id="funcionarios" v-model="funcionarioAtual">
                         <OptionConditional selected disabled>Escolha um funcionário</OptionConditional>
-                        <OptionConditional v-for="funcionario in funcionarios" :value="funcionario"
+                        <OptionConditional v-for="funcionario in funcionariosAtivos" :value="funcionario"
                         :disabled="funcionarioExiste(funcionario)">
                         {{ funcionario.nome }}
                         </OptionConditional>

@@ -38,7 +38,8 @@ class EventoController extends Controller {
                 'evento' => $evento,
                 'servicos' => Servico::all(),
                 'tipo' => Tipos::all(),
-                'funcionarios' => Funcionario::withTrashed()->get()
+                'funcionarios' => Funcionario::withTrashed()->get(),
+                'funcionariosAtivos' => Funcionario::all()
             ]);
         }
         /******* amo o matheus <3 *********/
