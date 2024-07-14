@@ -170,7 +170,11 @@ export default {
                 }
             })
 
-            router.get(route('admin.evento.contrato'), [this.evento.id, desconto])
+          let form = {
+            valorDesconto: desconto
+          }
+
+          router.get(route('admin.evento.contrato', this.evento.id), form)
         }
     },
 

@@ -28,9 +28,8 @@ class PDFController extends Controller {
         return $total;
     }
 
-    public function index($id, $desconto = 0) {
+    public function index(int $id, Request $request) {
         $evento = Evento::find($id);
-
         $evento->formatarData('d/m/Y');
         $evento->cliente;
         $evento->servicos;
@@ -44,7 +43,7 @@ class PDFController extends Controller {
             'data' => Carbon::now(),
             'evento' => $evento,
             'servicos' => $servicos,
-            'desconto' => $desconto,
+            'desconto' => $request->input('valorDesconto'),
             'total' => $total
         ]);
     }
