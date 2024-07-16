@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\PDFController;
 use App\Http\Controllers\Admin\ServicoController;
 use App\Http\Controllers\Admin\EquipeController;
 use App\Http\Controllers\Admin\Teste;
+use App\Http\Controllers\Admin\UsuarioController;
 
 // Rotas Públicas
 
@@ -75,6 +76,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
     //  - Teste
     Route::get('/teste', [Teste::class, 'index'])->name('admin.teste');
+
+    //  - Usuários
+    Route::get('/usuario', [UsuarioController::class, 'index'])->name('admin.usuario');
+    Route::post('/usuario', [UsuarioController::class, 'create'])->name('admin.usuario.create');
 });
 
 require __DIR__.'/auth.php';

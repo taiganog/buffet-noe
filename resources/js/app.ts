@@ -19,6 +19,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(VueSweetalert2)
+            // @ts-ignore
             .use(VueTheMask)
             .mount(el);
     },

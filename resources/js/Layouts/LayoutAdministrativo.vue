@@ -1,11 +1,13 @@
 <script>
 import IconeUsuario from '@/Components/Icones/IconeUsuario.vue'
 import NavLink from '@/Components/NavLink.vue'
+import { Link } from '@inertiajs/vue3'
 
 export default {
     components: {
         IconeUsuario,
-        NavLink
+        NavLink,
+        Link
     }
 }
 </script>
@@ -14,10 +16,12 @@ export default {
     <div class="grid grid-cols-12">
         <div class="bg-[#ffa32c] min-h-screen sticky shadow-2xl col-span-2">
             <!-- Topo usuário -->
-            <div class="flex justify-center mt-8">
-                <IconeUsuario class="mr-3" />
-                <span class="text-2xl font-bold">{{ $page.props.auth.user.name }}</span>
-            </div>
+            <Link :href="route('admin.usuario')">
+                <div class="flex justify-center mt-8">
+                    <IconeUsuario class="mr-3" />
+                    <span class="text-2xl font-bold">{{ $page.props.auth.user.name }}</span>
+                </div>
+            </Link>
 
             <hr class="border-black border-2 rounded-md w-9/12 m-auto mt-2" />
 

@@ -7,6 +7,8 @@ use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 
 use Spatie\LaravelPdf\Facades\Pdf;
+use function Spatie\LaravelPdf\Support\pdf;
+use Spatie\Browsershot\Browsershot;
 
 use Carbon\Carbon;
 
@@ -39,12 +41,12 @@ class PDFController extends Controller {
 
         $total = $this->calcularTotal($evento->servicos);
 
-        return view('contrato', [
+        return Pdf::view('contrato', [
             'data' => Carbon::now(),
             'evento' => $evento,
             'servicos' => $servicos,
             'desconto' => $request->input('valorDesconto'),
             'total' => $total
-        ]);
+            ]);
     }
 }
