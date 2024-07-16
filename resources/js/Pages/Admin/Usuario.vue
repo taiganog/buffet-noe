@@ -26,7 +26,7 @@ export default {
     methods: {
         enviar() {
             this.form.post(route('admin.usuario.create'), {
-                onSuccess: () => this.$swal('Edição salva!', '', 'success')
+                onSuccess: () => this.$swal('Operador cadastrado!', '', 'success')
             })
         }
     }
