@@ -8,7 +8,7 @@
     </head>
 
     <header>
-        <p class="text-xl">teste</p>
+        <p class="text-xl">teste2</p>
     </header>
 
     {{-- Conteúdo principal da página --}}
