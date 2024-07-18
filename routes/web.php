@@ -30,13 +30,14 @@ Route::get('/', function () {
     ]);
 })->name('welcome');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
-    // Rotas de perfil
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Rotas Públicas
+Route::get('/', function () {
+    return view('index');
+});
 
-    // Rotas administrativas
+
+// Rotas administrativas
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     //  - Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 

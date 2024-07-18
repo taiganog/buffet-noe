@@ -11,6 +11,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         @vite(['resources/css/app.css'])
+    </head>
+
     <body class="font-sans antialiased px-10">
         <!-- Header -->
         <img src="{{ asset('img/logo.png') }}" class="absolute opacity-10 top-[200px] left-[-3px]" />

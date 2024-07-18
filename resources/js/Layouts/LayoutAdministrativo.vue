@@ -54,6 +54,12 @@ export default {
                 <NavLink :href="route('admin.servico')" :active="route().current('admin.servico')">
                     Serviços
                 </NavLink>
+
+                <hr class="border-black w-3/12 my-5" />
+
+                <NavLink :href="route('logout')" method="post" as="button">
+                    Logout
+                </NavLink>
             </div>
         </div>
 

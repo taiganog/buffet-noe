@@ -41,7 +41,7 @@ class PDFController extends Controller {
 
         $total = $this->calcularTotal($evento->servicos);
 
-        return Pdf::view('contrato', [
+        return view('contrato', [
             'data' => Carbon::now(),
             'evento' => $evento,
             'servicos' => $servicos,
