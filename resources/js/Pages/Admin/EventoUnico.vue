@@ -57,6 +57,10 @@ export default {
                 funcionariosEscolhidos: [],
                 evento_id: this.evento.id
             }),
+
+            desconto: {
+                valorDesconto: 0,
+            },
         }
     },
 
@@ -170,11 +174,7 @@ export default {
                 }
             })
 
-          let form = {
-            valorDesconto: desconto
-          }
-
-          router.get(route('admin.evento.contrato', this.evento.id), form)
+            this.desconto.valorDesconto = desconto;
         }
     },
 
@@ -202,7 +202,9 @@ export default {
                     <div v-if="evento.servicos.length">
                         <PrimaryButton @click="$inertia.get(route('admin.evento.editar', evento.id))">Editar</PrimaryButton>
                     </div>
-                    <ConditionalButton :title="contrato" :disabled="!evento.servicos.length" @click="pegarDesconto">Gerar contrato</ConditionalButton>
+                    <div v-if="evento.servicos.length">
+                        <a :href="route('admin.evento.contrato', evento.id, desconto)" @click="pegarDesconto">Gerar Contrato</a>
+                    </div>
                 </div>
             </div>
             <hr class="my-2 border-yellow-400"/>
