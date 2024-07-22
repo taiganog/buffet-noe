@@ -1,13 +1,27 @@
 <script>
 import IconeUsuario from '@/Components/Icones/IconeUsuario.vue'
 import NavLink from '@/Components/NavLink.vue'
-import { Link } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 
 export default {
     components: {
         IconeUsuario,
         NavLink,
         Link
+    },
+
+    methods: {
+        logout() {
+            router.visit(route('logout'), {
+                method: 'post',
+                replace: true,
+            })
+        }
+    },
+
+    data() {
+        return {
+        }
     }
 }
 </script>
@@ -57,9 +71,9 @@ export default {
 
                 <hr class="border-black w-3/12 my-5" />
 
-                <NavLink :href="route('logout')" method="post" as="button">
+                <p @click="logout">
                     Logout
-                </NavLink>
+                </p>
             </div>
         </div>
 

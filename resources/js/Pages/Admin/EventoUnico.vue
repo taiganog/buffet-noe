@@ -58,9 +58,12 @@ export default {
                 evento_id: this.evento.id
             }),
 
+            // ------------------ Variáveis relacionadas ao contrato ---------------- //
             desconto: {
                 valorDesconto: 0,
             },
+
+            gerarContrato: false,
         }
     },
 
@@ -159,23 +162,6 @@ export default {
             // Incluir objeto em array
             this.form.servicosEscolhidos.push(servicoEscolhido)
         },
-
-        async pegarDesconto() {
-            const { value: desconto } = await Swal.fire({
-                title: "Defina o desconto",
-                input: "number",
-                inputLabel: "Desconto",
-                showCancelButton: false,
-                allowOutsideClick: false,
-                inputValidator: (value) => {
-                    if (!value) {
-                        return "É obrigatório informar o desconto!";
-                    }
-                }
-            })
-
-            this.desconto.valorDesconto = desconto;
-        }
     },
 
     computed: {
@@ -203,7 +189,7 @@ export default {
                         <PrimaryButton @click="$inertia.get(route('admin.evento.editar', evento.id))">Editar</PrimaryButton>
                     </div>
                     <div v-if="evento.servicos.length">
-                        <a :href="route('admin.evento.contrato', evento.id, desconto)" @click="pegarDesconto">Gerar Contrato</a>
+                        <PrimaryButton @click="gerarContrato = true">Gerar Contrato</PrimaryButton>
                     </div>
                 </div>
             </div>
@@ -353,6 +339,21 @@ export default {
                 <!-- Cadastrar -->
                 <div class="flex flex-row-reverse gap-5 p-5">
                     <PrimaryButton type="submit">Registrar</PrimaryButton>
+                </div>
+            </form>
+        </Modal>
+        <!-- Modal para geração de contrato -->
+        <Modal :show="gerarContrato" @close="gerarContrato = false" maxWidth="xl">
+            <div class="text-center">
+                <h3 class="font-bold text-2xl p-4">Informe o desconto</h3>
+                <hr class="border-yellow-400 w-10/12 m-auto" />
+            </div>
+            <form :action="evento.id + '/contrato'" method="get" target="_blank">
+                <div class="text-center p-5">
+                    <TextInput type="text" name="valorDesconto" v-model="desconto.valorDesconto" />
+                    <div class="flex flex-row-reverse gap-5 p-5">
+                        <PrimaryButton type="submit">Gerar Contrato</PrimaryButton>
+                    </div>
                 </div>
             </form>
         </Modal>
