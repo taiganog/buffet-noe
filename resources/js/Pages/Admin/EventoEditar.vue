@@ -7,7 +7,7 @@ import ConditionalInput from '@/Components/ConditionalInput.vue';
 import Swal from 'sweetalert2';
 
 export default {
-    props: ['evento', 'servicos', 'tipo'],
+    props: ['evento', 'servicos', 'tipo', 'funcionarios', 'funcionariosAtivos'],
 
     components: {
         LayoutAdministrativo,
@@ -42,6 +42,13 @@ export default {
                 servicosEscolhidos: [],
                 evento_id: this.evento.id
             }),
+
+            // Funcionarios selecionados
+            // [{}]
+            formEditarEquipe: this.$inertia.form({
+                equipeEscolhida: [],
+                evento_id: this.evento.id
+            })
         }
     },
 
@@ -53,6 +60,11 @@ export default {
         },
         enviarEditarServicos() {
             this.formEditarServicos.put(route('admin.complemento.update'), {
+                onSuccess: () => this.$swal('Edição salva!', '', 'success')
+            })
+        },
+        enviarEditarEquipe() {
+            this.formEditarEquipe.put(route('admin.equipe.update'), {
                 onSuccess: () => this.$swal('Edição salva!', '', 'success')
             })
         },
@@ -110,6 +122,14 @@ export default {
             }
             // Incluir objeto em array
             this.formEditarServicos.servicosEscolhidos.push(servicoEscolhido)
+        },
+
+        removerFuncionario(funcionario_id) {
+            for(let i = 0; i < this.formEditarEquipe.equipeEscolhida.length; i++) {
+                if(this.formEditarEquipe.equipeEscolhida[i].funcionario_id == funcionario_id) {
+                    this.formEditarEquipe.equipeEscolhida.splice(i, 1)
+                }
+            }
         }
     },
 
@@ -118,6 +138,8 @@ export default {
             this.valores[i] = this.servicos[i].valor
         }
 
+        // Inicializando array de servicosEscolhidos com os serviços já escolhidos originalmente
+        // isso impede que os dados sumam ao apertar no botão "EDITAR" sem realizar alterações
         this.evento.servicos.forEach((value) => {
             this.statusBotaoServico[value.servico_id - 1] = 1
             this.valores[value.servico_id - 1] = value.valor / value.quantidade
@@ -125,6 +147,17 @@ export default {
                 id: value.servico_id,
                 quantidade: value.quantidade,
                 valor: this.valores[value.servico_id - 1] * value.quantidade
+            })
+        })
+
+
+        // Inicializando array de servicosEscolhidos com os serviços já escolhidos originalmente
+        // isso impede que os dados sumam ao apertar no botão "EDITAR" sem realizar alterações
+        this.evento.equipes.forEach((value) => {
+            this.formEditarEquipe.equipeEscolhida.push({
+                evento_id: this.evento.id,
+                funcionario_id: value.funcionario_id,
+                funcao: value.funcao
             })
         })
     }
@@ -139,6 +172,7 @@ export default {
                 <h2>Edição: {{ tipo[evento.tipo] }} - {{ evento.cliente.nome }}</h2>
                 <PrimaryButton @click="$inertia.get(route('admin.evento.unico', evento.id))">Voltar</PrimaryButton>
             </div>
+
             <hr class="my-2 border-yellow-400"/>
             <!-- Conteúdo de edição de evento -->
             <div>
@@ -197,6 +231,38 @@ export default {
                             </div>
                             <p>{{ servico.nome }}</p>
                             <TextInput type="number" v-model="valores[servico.id - 1]" :placeholder="servico.valor + ',00'" />
+                        </div>
+                    </div>
+                    <!-- Cadastrar -->
+                    <div class="flex flex-row-reverse gap-5 p-5">
+                        <PrimaryButton type="submit">Cadastrar</PrimaryButton>
+                    </div>
+                </form>
+            </div>
+            <!-- Conteúdo de edição de equipe -->
+            <div>
+                <div class="text-center font-bold text-md">
+                    <h2>Equipe</h2>
+                    <hr class="m-auto w-5/12 border-yellow-400">
+                </div>
+                <form @submit.prevent="enviarEditarEquipe">
+                    <!-- Títulos -->
+                    <div class="grid grid-cols-3 gap-2 font-bold text-xl p-2 text-center mb-4">
+                        <div>
+                            <PrimaryButton type="button" @click="adicionarFuncionario">Adicionar Funcionário</PrimaryButton>
+                        </div>
+                        <p>Nome</p>
+                        <p>Função</p>
+                    </div>
+                    <div v-for="funcionario in formEditarEquipe.equipeEscolhida">
+                        <div class="grid grid-cols-3 gap-2 font-bold p-2 text-center p-5">
+                            <div class="">
+                                <PrimaryButton type="button" @click="removerFuncionario(funcionario.funcionario_id)">
+                                    Remover
+                                </PrimaryButton>
+                            </div>
+                            <p>{{ funcionarios[funcionario.funcionario_id - 1].nome }}</p>
+                            <p>{{ funcionario.funcao }}</p>
                         </div>
                     </div>
                     <!-- Cadastrar -->

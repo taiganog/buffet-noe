@@ -24,7 +24,17 @@ class EquipeController extends Controller
     }
 
     public function update(Request $request): RedirectResponse {
-        Equipe::find($request->id)->update($request->all());
+        // dd($request);
+        Equipe::where('evento_id', $request->input('evento_id'))->delete();
+
+        $funcionarios = $request->input('equipeEscolhida');
+        foreach($funcionarios as $funcionario) {
+            $funcionarioEscolhido = new Equipe();
+            $funcionarioEscolhido->funcionario_id = $funcionario['funcionario_id'];
+            $funcionarioEscolhido->evento_id = $request->input('evento_id');
+            $funcionarioEscolhido->funcao = $funcionario['funcao'];
+            $funcionarioEscolhido->save();
+        }
 
         return back();
     }

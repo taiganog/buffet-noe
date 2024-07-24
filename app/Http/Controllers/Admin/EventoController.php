@@ -98,11 +98,14 @@ class EventoController extends Controller {
         $evento = Evento::find($id);
         $evento->cliente;
         $evento->servicos;
+        $evento->equipes;
 
         return Inertia::render('Admin/EventoEditar', [
             'evento' => $evento,
             'servicos' => Servico::all(),
-            'tipo' => Tipos::all()
+            'tipo' => Tipos::all(),
+            'funcionarios' => Funcionario::withTrashed()->get(),
+            'funcionariosAtivos' => Funcionario::all()
         ]);
     }
 

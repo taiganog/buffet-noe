@@ -16,7 +16,8 @@
     <body class="font-sans antialiased px-10">
         <!-- Header -->
         <img src="{{ asset('img/logo.png') }}" class="absolute opacity-10 top-[200px] left-[-3px]" />
-        <div class="flex justify-center">
+        <div class="flex flex-col text-center justify-center">
+            <img src="{{ asset('img/logo.png') }}" height="50px" width="200px" class="self-center" />
             <h1 class="text-2xl font-bold p-2">Buffet Arca de Noé</h1>
         </div>
         <!-- Conteúdo -->
@@ -36,12 +37,6 @@
                     <p><b>Quantidade de convidados:</b> {{ $evento->numero_convidados }}</p>
                     <p><b>Data do evento:</b> {{ $evento->data }}</p>
                     <p><b>Local do evento:</b> {{ $evento->local }}</p>
-                </div>
-                <!-- Cardápio -->
-                <div class="mt-1"> {{--
-                    <p><b>Entradas:</b> {{ $evento->complemento->entradas }}</p>
-                    <p><b>Cardápio:</b> {{ $evento->complemento->cardapio }}</p>
-                                    --}}
                 </div>
                 <!-- Tabela -->
                 <div class="mt-3">
@@ -114,8 +109,8 @@
 
             <!-- Área de Assinatura -->
             <div class="grid grid-cols-2 p-5 justify-center text-center">
-                <hr class="w-1/2 m-auto border-black" />
-                <hr class="w-1/2 m-auto border-black" />
+                <hr class="w-10/12 m-auto border-black" />
+                <hr class="w-10/12 m-auto border-black" />
 
                 <span>55.591.904 MATEUS NOGUEIRA DA CRUZ</span>
                 <span>{{ $evento->cliente->nome }}</span>
