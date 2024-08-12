@@ -30,7 +30,7 @@ export default {
     methods: {
         enviarForm() {
             this.form.post(route('admin.servico.create'), {
-                onSuccess: () => { this.servicoModal = false; this.$swal('Serviço criado!', '', 'success') }
+                onSuccess: () => { this.servicoModal = false; this.$swal('Serviço criado!', '', 'success'); this.form.reset(); }
             })
         }
     }

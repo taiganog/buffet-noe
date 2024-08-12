@@ -39,7 +39,7 @@ export default {
 
         enviar() {
             this.form.post(route('admin.funcionario.create'), {
-                onSuccess: () => { this.cadastroFuncionario = false; this.$swal('Funcionário criado!', '', 'success') }
+                onSuccess: () => { this.cadastroFuncionario = false; this.$swal('Funcionário criado!', '', 'success'); this.form.reset(); }
             })
         },
 
