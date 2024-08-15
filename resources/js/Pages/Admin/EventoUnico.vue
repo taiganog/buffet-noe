@@ -162,6 +162,14 @@ export default {
             // Incluir objeto em array
             this.form.servicosEscolhidos.push(servicoEscolhido)
         },
+
+        pegarNomeServico(id) {
+            for(let i = 0; i < this.servicos.length; i++) {
+                if (this.servicos[i].id == id) {
+                    return this.servicos[i].nome;
+                }
+            }
+        }
     },
 
     computed: {
@@ -220,7 +228,7 @@ export default {
                         </div>
                         <div></div>
                         <div v-for="(chave, valor) in evento.servicos" class="grid grid-cols-4 gap-2">
-                            <p v-if="evento.servicos[valor] !== null">{{ servicos[chave.servico_id - 1].nome }}</p>
+                            <p v-if="evento.servicos[valor] !== null">{{ pegarNomeServico(chave.servico_id) }}</p>
                             <p v-if="evento.servicos[valor] !== null">{{ chave.quantidade }}</p>
                             <p v-if="evento.servicos[valor] !== null">R$ {{ chave.valor / chave.quantidade }},00</p>
                             <p v-if="evento.servicos[valor] !== null">R$ {{ chave.valor }},00</p>

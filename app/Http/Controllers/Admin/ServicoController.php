@@ -31,4 +31,15 @@ class ServicoController extends Controller
 
         return back();
     }
+
+    public function update(Request $request, int $id): RedirectResponse {
+        $servico = Servico::find($id);
+
+        $servico->nome = $request->input('nome');
+        $servico->valor = $request->input('valor');
+
+        $servico->save();
+
+        return back();
+    }
 }

@@ -69,11 +69,12 @@ export default {
                     Serviços
                 </NavLink>
 
-                <hr class="border-black w-3/12 my-5" />
-
+                <!--
+                    <hr class="border-black w-3/12 my-5" />
                 <p @click="logout">
                     Logout
                 </p>
+                -->
             </div>
         </div>
 

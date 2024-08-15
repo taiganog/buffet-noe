@@ -74,6 +74,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     //  - Servicos
     Route::get('/servico', [ServicoController::class, 'index'])->name('admin.servico');
     Route::post('/servico', [ServicoController::class, 'create'])->name('admin.servico.create');
+    Route::put('/servico/{id}/editar', [ServicoController::class, 'update'])->name('admin.servico.update');
 
     //  - Teste
     Route::get('/teste', [Teste::class, 'index'])->name('admin.teste');

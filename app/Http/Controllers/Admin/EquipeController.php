@@ -24,7 +24,6 @@ class EquipeController extends Controller
     }
 
     public function update(Request $request): RedirectResponse {
-        // dd($request);
         Equipe::where('evento_id', $request->input('evento_id'))->delete();
 
         $funcionarios = $request->input('equipeEscolhida');
